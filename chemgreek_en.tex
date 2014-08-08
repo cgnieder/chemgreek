@@ -1,0 +1,513 @@
+% arara: pdflatex: { shell: on }
+% arara: biber
+% arara: pdflatex
+% arara: pdflatex
+% --------------------------------------------------------------------------
+% the CHEMMACROS bundle
+%   chemgreek_en.tex
+% macros and commands for chemists
+% --------------------------------------------------------------------------
+% Clemens Niederberger
+% --------------------------------------------------------------------------
+% https://bitbucket.org/cgnieder/chemmacros/
+% contact@mychemistry.eu
+% --------------------------------------------------------------------------
+% If you have any ideas, questions, suggestions or bugs to report, please
+% feel free to contact me.
+% --------------------------------------------------------------------------
+% Copyright 2011-2013 Clemens Niederberger
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+%
+% The Current Maintainer of this work is Clemens Niederberger.
+% --------------------------------------------------------------------------
+\documentclass[load-preamble+]{cnltx-doc}
+\usepackage[utf8]{inputenc}
+\usepackage[greek=newtx]{chemmacros}
+\setcnltx{
+  package  = {chemgreek},
+  title    = \huge the \chemmacros\ bundle,
+  url      = https://bitbucket.org/cgnieder/chemmacros/ ,
+  authors  = Clemens Niederberger ,
+  email    = contact@mychemistry.eu ,
+  info     = {
+    packages \chemmacros\ (v\csname chemmacros@version\endcsname),
+    \chemformula\ (v\csname chemformula@version\endcsname),
+    \ghsystem\ (v\csname ghsystem@version\endcsname) and
+    \chemgreek\ (v\csname chemgreek@version\endcsname)\\[2ex]
+    {\Large documentation for the \chemgreek\ package}} ,
+  abstract = {%
+    \centering
+    \includegraphics{chemmacros-logo.pdf}
+    \par
+  } ,
+  add-cmds = {
+     abinitio, activatechemgreekmapping, AddRxnDesc, anti, aq, aqi,
+     ba, bond, bridge,
+    cd, ch, changechemgreeksymbol, charrow, chcpd, chemabove, chemalpha,
+      chembeta, chemgamma, chemdelta, chemDelta, chemformula@bondlength,
+      chemomega, chemphi, chemPhi, chemsetup, chlewis, chname , cip, cis, ch,
+      CNMR,
+    data, DeclareChemArrow, DeclareChemBond, DeclareChemBondAlias,
+      declarechemgreekmapping, DeclareChemIUPAC, DeclareChemLatin,
+      DeclareChemNMR, DeclareChemParticle, DeclareChemPhase,
+      DeclareChemReaction, DeclareChemState, delm, delp, Delta, Dfi,
+    el, ElPot, endo, Enthalpy, enthalpy, Entropy,
+    fmch, fpch, fscrm, fscrp,
+    gas, ghs, ghslistall, ghspic, Gibbs, gram,
+    hapto, HNMR, Helmholtz, hydrogen,
+    insitu, invacuo, iupac,
+    Ka, Kb, Kw,
+    Lfi, listofreactions, lqd,
+    mch, mega, meta, mhName,
+    NewChemArrow, NewChemBond, NewChemBondAlias,
+      newchemgreekmapping, NewChemIUPAC, NewChemLatin,
+      NewChemNMR, NewChemParticle, NewChemPhase,
+      NewChemReaction, NewChemState,
+      newman, nitrogen, NMR, Nu, Nuc,
+    orbital, ortho, ox, OX, oxygen,
+    para, pch, per, pH, phase, phosphorus, photon, pKa, pKb, pOH, pos,
+      positron, Pot, prt, printchemgreekalphabet ,
+    Rad, redox, RenewChemArrow, RenewChemBond, renewchemgreekmapping,
+      RenewChemIUPAC, RenewChemLatin, RenewChemNMR, RenewChemParticle,
+      RenewChemPhase, RenewChemState,
+    Sf, scrm, scrp, second, selectchemgreekmapping, setchemformula,
+      ShowChemArrow, ShowChemBond, sld, Sod, State, sulfur,
+    trans,
+    val
+  } ,
+  add-silent-cmds = {
+    addplot,
+    bottomrule,
+    cancel, cdot, ce, cee, celsius, centering, chemfig, chemname, clap,
+      cnsetup, color, cstack, cstsetup,
+    DeclareInstance, DeclareSIUnit, definecolor, draw,
+    electronvolt,
+    footnotesize,
+    glqq, grqq,
+    hertz, hspace,
+    includegraphics, intertext, IUPAC,
+    joule,
+    kilo,
+    latin, lewis, Lewis, liquid, ltn,
+    metre, midrule, milli, mmHg, mole,
+    nano, nicefrac, num, numrange,
+    ominus, oplus,
+    percent, pgfarrowsdeclarealias, pgfarrowsrenewalias,
+    renewtagform, rightarrow,
+    sample, scriptscriptstyle, setatomsep, setbondoffset, setmainfont, sfrac,
+      shorthandoff, si, SI, sisetup, square, subsection,
+    textcolor, textendash, textsuperscript, tiny, toprule,
+    upbeta, upeta, upgamma, upPhi, upphi, usetikzlibrary,
+    volt, vphantom, vspave,
+    xspace,
+    z@, z@skip
+  }
+}
+
+\usepackage{chemfig,booktabs,cancel,varioref}
+\usepackage[version=3]{mhchem}
+
+\expandafter\def\csname libertine@figurestyle\endcsname{LF}
+\usepackage[libertine]{newtxmath}
+\expandafter\def\csname libertine@figurestyle\endcsname{OsF}
+
+\usepackage[biblatex]{embrac}
+\ChangeEmph{[}[,.02em]{]}[.055em,-.08em]
+\ChangeEmph{(}[-.01em,.04em]{)}[.04em,-.05em]
+
+\usepackage[accsupp]{acro}
+\acsetup{
+  long-format  = \scshape ,
+  short-format = \scshape
+}
+\DeclareAcronym{ghs}{
+  short     = ghs ,
+  long      = Globally Harmonized System of Classification and Labelling of
+    Chemicals ,
+  pdfstring = GHS ,
+  accsupp   = GHS
+}
+\DeclareAcronym{eu}{
+  short     = EU ,
+  long      = European Union ,
+  pdfstring = EU ,
+  accsupp   = EU
+}
+\DeclareAcronym{iupac}{
+  short     = iupac ,
+  long      = International Union of Pure and Applied Chemistry ,
+  pdfstring = IUPAC ,
+  accsupp   = IUPAC
+}
+\DeclareAcronym{UN}{
+  short     = un ,
+  long      = United Nations ,
+  pdfstring = UN ,
+  accsupp   = UN
+}
+\DeclareAcronym{dvi}{
+  short     = dvi ,
+  long      = device independent file format ,
+  pdfstring = DVI ,
+  accsupp   = DVO
+}
+\DeclareAcronym{pdf}{
+  short     = pdf ,
+  long      = portable document file ,
+  pdfstring = PDF ,
+  accsupp   = PDF
+}
+
+\chemsetup{
+  option/synchronize ,
+  chemformula/format = \libertineLF
+}
+% \colorlet{chemformula}{black!90}
+
+\sisetup{
+  detect-mode=false,
+  mode=text,
+  text-rm=\libertineLF
+}
+
+\usepackage{filecontents}
+
+\defbibheading{bibliography}{\addsec{References}}
+\addbibresource{\jobname.bib}
+\begin{filecontents*}{\jobname.bib}
+@book{iupac:greenbook,
+  author    = {E. Richard Cohan and Tomislav Cvita\v{s} and Jeremy G. Frey and
+    Bertil Holmstr\"om and Kozo Kuchitsu and Roberto Marquardt and Ian Mills and
+    Franco Pavese and Martin Quack and J\"urgen Stohner and Herbert L. Strauss and
+    Michio Takami and Anders J Thor} ,
+  title     = {``Quantities, Symbols and Units in Physical Chemistry'', \acs{iupac}
+    Green Book} ,
+  sorttitle = {Quantities, Symbols and Units in Physical Chemistry} ,
+  indexsorttitle = {Quantities, Symbols and Units in Physical Chemistry} ,
+  edition   = {3rd Edition. 2nd Printing} ,
+  year      = {2008} ,
+  publisher = {\acs{iupac} \&\ RSC Publishing, Cambridge}
+}
+@book{iupac:redbook,
+  author    = {Neil G. Connelly and Ture Damhus and Richard M. Hartshorn and
+    Alan T. Hutton} ,
+  title     = {``Nomenclature of Inorganic Chemistry'', \acs{iupac} Red Book} ,
+  sorttitle = {Nomenclature of Inorganic Chemistry} ,
+  indexsorttitle = {Nomenclature of Inorganic Chemistry} ,
+  year      = {2005} ,
+  publisher = { \acs{iupac} \&\ RSC Publishing, Cambridge} ,
+  isbn      = {0-85404-438-8}
+}
+@misc{eu:ghsystem_regulation,
+  author   = {{The European Parliament and The Council of the European Union}},
+  title    = {Regulation (EC) No 1272/2008 of the European Parliament and of
+    the Council} ,
+  subtitle = {on classification, labelling and packaging of substances and
+    mixtures, amending and repealing Directives 67/548/EEC and 1999/45/EC, and
+    amending Regulation (EC) No 1907/2006} ,
+  journal  = {Official Journal of the European Union} ,
+  date     = {2008-12-16}
+}
+@online{unece:ghsystem_implementation,
+  author   = {United Nations Economic Commission for Europe} ,
+  title    = {GHS Implementation} ,
+  url      =
+    {http://www.unece.org/trans/danger/publi/ghs/implementation_e.html} ,
+  urldate  = {2012-03-20} ,
+  date     = {2012-03-20}
+}
+\end{filecontents*}
+
+\DeclareInstance{xfrac}{chemformula-text-frac}{text}
+  {
+    scale-factor        = 1 ,
+    denominator-bot-sep = -.2ex ,
+    denominator-format  = \scriptsize #1 ,
+    numerator-top-sep   = -.2ex ,
+    numerator-format    = \scriptsize #1 ,
+    slash-right-kern    = .05em ,
+    slash-left-kern     = .05em
+  }
+
+\usetikzlibrary{calc,positioning,decorations.pathmorphing,patterns}
+
+\newpackagename\chemmacros{chemmacros}
+\newpackagename\chemformula{chemformula}
+\newpackagename\ghsystem{ghsystem}
+% \newpackagename\chemgreek{chemgreek}
+
+
+\newidxcmd\manual{\textsf{#1}}[\ (manual)]
+
+\newenvironment{codedesc}
+  {%
+    \def\Code##1{\item\code{##1}\hfill\newline}%
+    \cnltxlist
+  }
+  {\endcnltxlist}
+
+\renewcommand*\AmS{\hologo{AmS}}
+
+\newcommand*\TikZ{Ti\textit{k}Z}
+
+\newcommand*\tablehead[1]{\textrm{\bfseries#1}}
+
+\begin{document}
+
+\section{Introduction}
+The \chemgreek\ package is an auxiliary package for other chemistry packages
+such as \chemmacros.  In chemistry there is often the need for upright greek
+letters.  The \chemgreek\ package provides an interface to various other
+packages that provide upright greek letters.  One could mention
+\pkg{textgreek}, \pkg{upgreek}, \pkg{newtx} or \pkg{kpfonts}.  All of these
+packages provide upright greek letters, some a whole alphabet some only the
+upright variants of the standard italic symbols for which macros are defined
+in base \LaTeX.
+
+\chemgreek\ offers a possibility to map those different interfaces to a
+unified set of macros for usage in a chemistry package.  This is useful as
+then for example names like \iupac{\b\-\D\-gluco\|pyranose} can be typeset
+with a semantic interface and still have matching greek letters while the user
+is not limited to a certain package or font.  Consequently this package is
+used by \chemmacros\ and its \acs{iupac} naming commands.
+
+\section{Licence and Requirements}
+\license
+
+\chemgreek\ loads the following packages:
+\pkg{expl3}\footnote{\CTANurl{l3kernel}}~\cite{bnd:l3kernel} and
+\pkg{xparse}\footnote{\CTANurl{l3packages}}~\cite{bnd:l3packages}.
+
+\section{News}
+\subsection{Version~0.2}
+\begin{itemize}
+  \item The mapping ``mathdesign'' has been added.  In order to use it you
+    need the \pkg{mathdesign} package~\cite{pkg:mathdesign} loaded.
+  \item The mapping ``fourier'' has been added.  In order to use it you
+    need the \pkg{fourier} package~\cite{pkg:fourier} loaded.
+\end{itemize}
+
+\subsection{Version~0.3}
+\begin{itemize}
+  \item The provided macros have been renamed from \cs*{Chem\meta{\ldots}}
+    into \cs*{chem\meta{\ldots}}.  The uppercase version still are provided
+    for backwards compatibility but issue a warning message and will be
+    removed some time in the future.
+  \item The commands for defining mappings have gotten an optional argument
+    which allows to specify the name of the package a mapping needs.  The
+    command \cs{selectchemgreekmapping} now checks for this package and gives
+    a warning if it doesn't find it loaded.
+  \item The mapping ``textalpha'' has been added.  In order to use it you
+    need the \pkg{textalpha} package (part of
+    \bnd{greek-fontenc}~\cite{bnd:greek-fontenc}) loaded.
+  \item If the package \pkg{hyperref}~\cite{pkg:hyperref} is loaded with the
+    \code{unicode} option \emph{and} the \pkg{textalpha} package has been
+    loaded at begin document all the \cs*{chem\meta{\ldots}} commands are let
+    to \pkg{textalpha}'s \cs*{text\meta{\ldots}} commands for the \acs{pdf}
+    bookmarks.  This allows Greek letters in the bookmarks without worrying
+    about \cs*{texorpdfstring}.
+\end{itemize}
+
+\subsection{Version~0.4}
+\begin{itemize}
+  \item The mapping ``fontspec'' has been added.  In order to use it you
+    need the \pkg{fontspec} package~\cite{pkg:fontspec} loaded.  This means it
+    can only be used with \LuaLaTeX\ or \XeLaTeX.
+  \item New command \cs{printchemgreekalphabet}.
+\end{itemize}
+
+\section{Define Mappings}
+\selectchemgreekmapping{default}
+
+\chemgreek's main commands are:
+\begin{commands}
+  \command{newchemgreekmapping}[\oarg{package}\marg{name}\marg{mapping list}]
+    \changedversion{0.3}Add a new mapping to \chemgreek.  Issue an error if it
+    already exists.  With the optional argument the package that is needed for
+    this mapping can (and should) be specified.
+  \command{renewchemgreekmapping}[\oarg{package}\marg{name}\marg{mapping list}]
+    \changedversion{0.3}Renew a \chemgreek\ mapping.  Issue an error if it
+    doesn't exist yet.  With the optional argument the package that is needed
+    for this mapping can (and should) be specified.
+  \command{declarechemgreekmapping}[\oarg{package}\marg{name}\marg{mapping list}]
+    \changedversion{0.3}Declare a new mapping to \chemgreek.  If the mapping
+    already exists it will be overwritten.  With the optional argument the
+    package that is needed for this mapping can (and should) be specified.
+\end{commands}
+
+The command \cs{newchemgreekmapping} needs to get a comma separated list of
+24 pairs divided by a slash.  The first entry is the lowercase version und the
+second the uppercase version for the corresponding greek letter at the current
+position.  This will become clearer if you look at how the \code{default}
+mapping is defined:
+
+\begin{sourcecode}
+  \newchemgreekmapping{default}
+    {
+      \ensuremath{\alpha}   / \ensuremath{\mathrm{A}} , %  1: alpha
+      \ensuremath{\beta}    / \ensuremath{\mathrm{B}} , %  2: beta
+      \ensuremath{\gamma}   / \ensuremath{\Gamma} ,     %  3: gamma
+      \ensuremath{\delta}   / \ensuremath{\Delta} ,     %  4: delta
+      \ensuremath{\epsilon} / \ensuremath{\mathrm{E}} , %  5: epsilon
+      \ensuremath{\zeta}    / \ensuremath{\mathrm{Z}} , %  6: zeta
+      \ensuremath{\eta}     / \ensuremath{\mathrm{H}} , %  7: eta
+      \ensuremath{\theta}   / \ensuremath{\Theta} ,     %  8: theta
+      \ensuremath{\iota}    / \ensuremath{\mathrm{I}} , %  9: iota
+      \ensuremath{\kappa}   / \ensuremath{\mathrm{K}} , % 10: kappa
+      \ensuremath{\lambda}  / \ensuremath{\Lambda} ,    % 11: lambda
+      \ensuremath{\mu}      / \ensuremath{\mathrm{M}} , % 12: mu
+      \ensuremath{\nu}      / \ensuremath{\mathrm{N}} , % 13: nu
+      \ensuremath{\xi}      / \ensuremath{\Xi} ,        % 14: xi
+      \ensuremath{o}        / \ensuremath{\mathrm{O}} , % 15: omikron
+      \ensuremath{\pi}      / \ensuremath{\Pi} ,        % 16: pi
+      \ensuremath{\rho}     / \ensuremath{\mathrm{P}} , % 17: rho
+      \ensuremath{\sigma}   / \ensuremath{\Sigma} ,     % 18: sigma
+      \ensuremath{\tau}     / \ensuremath{\mathrm{T}} , % 19: tau
+      \ensuremath{\upsilon} / \ensuremath{\Upsilon} ,   % 20: upsilon
+      \ensuremath{\phi}     / \ensuremath{\Phi} ,       % 21: phi
+      \ensuremath{\psi}     / \ensuremath{\Psi} ,       % 22: psi
+      \ensuremath{\chi}     / \ensuremath{\mathrm{X}} , % 23: chi
+      \ensuremath{\omega}   / \ensuremath{\Omega}       % 24: omega
+  }
+\end{sourcecode}
+
+There \emph{must} be 24 pairs of entries, \ie, a complete mapping!  Those
+entries are the ones that will be used by the interface macros.  For each
+letter a pair \cs{chemalpha}/\cs{chemAlpha} is defined that uses the entries
+of the currently active mapping.  That means there are 48 (robust) macros
+defined each beginning with \cs*{chem...} followed by the lowercase or
+uppercase name of the Greek letter.
+
+The default mapping is -- as you can probably see -- \emph{not an upright
+  one}.  This is because \chemgreek\ will not make any choice for a specific
+package but let's the user (or another package) choose.  The \chemmacros\
+package for example provides a package option that selects one of the
+available mappings.
+
+\begin{example}
+  Default mapping: \chemphi\ and \chemPhi, $\phi$ and $\Phi$
+\end{example}
+
+\section{Predefined Mappings and Selection of a Mapping}
+\chemgreek\ predefines some mappings.  Some of the mappings require additional
+packages to be loaded.  The mapping names and the required packages are listed
+in table~\ref{tab:mappings}.  Ths mapping \code{fontspec} is a bit different
+here:  if you use this mapping then the fact is used that \pkg{fontspec} also
+defines commands like \cs*{textalpha}.  However, they only work if you also
+use a font that has the Greek glyphs.
+
+\begin{table}
+  \centering
+  \begin{tabular}{>{\ttfamily}ll}
+    \toprule
+      \tablehead{mapping} & \tablehead{package} \\
+    \midrule
+      default     & --- \\
+      var-default & --- \\
+      textgreek   & \pkg{textgreek} \cite{pkg:textgreek} \\
+      upgreek     & \pkg{upgreek} \cite{pkg:upgreek} \\
+      newtx       & \pkg*{newtxmath} \cite{pkg:newtx} \\
+      kpfonts     & \pkg{kpfonts} \cite{pkg:kpfonts} \\
+      mathdesign  & \pkg{mathdesign} \cite{pkg:mathdesign} \\
+      fourier     & \pkg{fourier} \cite{pkg:fourier} \\
+      textalpha   & \pkg{textalpha} \cite{bnd:greek-fontenc} \\
+      fontspec    & \pkg{fontspec} \cite{pkg:fontspec} \\
+    \bottomrule
+  \end{tabular}
+  \caption{Predefined mappings.}
+  \label{tab:mappings}
+\end{table}
+
+A mapping is selected and activated with one of the following commands:
+\begin{commands}
+  \command{activatechemgreekmapping}[\sarg\marg{name}]
+    \changedversion{0.3}This commands selects and activates the mapping
+    \meta{name}.  If the star variant is used also the package of mapping
+    \meta{name} (as defined with \cs{newchemgreekmapping} is loaded.  The
+    command can only be used in the document preamble.
+  \command{selectchemgreekmapping}[\marg{name}]
+    \changedversion{0.3}This commands selects and activates the mapping
+    \meta{name}.  A required package has to be loaded additionally the usual
+    way via \cs*{usepackage} or \cs*{RequirePackage}.  If the package hasn't
+    been loaded a warning will be written to the log.  The command can be used
+    throughout the document.
+\end{commands}
+
+\begin{example}
+  % requires the `newtxmath' package to be loaded:
+  \chemphi\ and \chemPhi, $\phi$ and $\Phi$\par
+  \selectchemgreekmapping{newtx}
+  \chemphi\ and \chemPhi, $\upphi$ and $\upPhi$
+\end{example}
+
+Since the \code{fontspec} mapping is a little bit different than the others
+I'd like to show a little example for it.  The difference is subtle: you need
+to choose a font containing the needed glyphs.
+
+\begin{example}[compile,program=lualatex,runs=1,add-frame=false]
+  \documentclass[margin=3pt]{standalone}
+  \usepackage{fontspec}
+  \setmainfont{Linux Libertine O}% need a font that has the glyphs!
+  \usepackage{chemgreek}
+  \selectchemgreekmapping{fontspec}
+  \begin{document}
+  \printchemgreekalphabet
+  \end{document}
+\end{example}
+
+\section{Changing a Specific Symbol in an Existing Mapping}
+If you should want to change a specific entry of a specific mapping it would
+be rather tedious to redefine the whole mapping.  That is why \chemgreek\
+provides a command for that purpose:
+\begin{commands}
+  \command{changechemgreeksymbol}[\marg{mapping
+    name}\Marg{upper|lower}\marg{entry name}\marg{entry}]
+    Changes the \code{upper}- or \code{lower}case entry \meta{entry name} in
+    the mapping \meta{mapping name}.
+\end{commands}
+
+In order to activate the change you need the (re-) activate the affected
+mapping afterwards:
+\begin{example}
+  \chemalpha
+  \changechemgreeksymbol{default}{lower}{alpha}{xxx}%
+  \selectchemgreekmapping{default}
+  \chemalpha
+\end{example}
+
+\section{Inspecting a Mapping}
+\selectchemgreekmapping{newtx}
+If you want to check if a mapping has been correctly set you can use the
+following commands:
+\begin{commands}
+  \command{printchemgreekmapping}[\marg{mapping}]
+    \sinceversion{0.3}This will typeset a table (using a simple \code{tabular}
+    environment) with all~48 characters like the one shown in
+    table~\ref{tab:showmapping}.
+  \command{printchemgreekalphabet}
+    \sinceversion{0.4}This will print the twentyfour pairs of lower- and
+    uppercase letters of the currently active mapping: \printchemgreekalphabet.
+  \command{showchemgreekmapping}[\marg{mapping}]
+    \changedversion{0.3}This command will write information about the
+    definition of all 48~macros for a mapping to the log file.
+\end{commands}
+
+\begin{table}
+  \centering
+  \printchemgreekmapping{newtx}
+  \caption{A demonstration of the \cs*{printchemgreekmapping} command.}
+  \label{tab:showmapping}
+\end{table}
+
+\clearpage
+
+\end{document}
