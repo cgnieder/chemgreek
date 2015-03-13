@@ -1,6 +1,6 @@
 % arara: pdflatex
-% arara: biber
-% arara: pdflatex
+% !arara: biber
+% !arara: pdflatex
 % arara: pdflatex
 % --------------------------------------------------------------------------
 % the CHEMGREEK package
@@ -16,7 +16,7 @@
 % If you have any ideas, questions, suggestions or bugs to report, please
 % feel free to contact me.
 % --------------------------------------------------------------------------
-% Copyright 2011-2014 Clemens Niederberger
+% Copyright 2011-2015 Clemens Niederberger
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either version 1.3
@@ -107,7 +107,7 @@ in base \LaTeX.
 
 \chemgreek{} offers a possibility to map those different interfaces to a
 unified set of macros for usage in a chemistry package.  This is useful as
-then for example names like \iupac{\b\-\D\-gluco\|pyranose} can be typeset
+then for example names like \iupac{\b\-\D\-gluco|pyranose} can be typeset
 with a semantic interface and still have matching greek letters while the user
 is not limited to a certain package or font.  Consequently this package is
 used by the \pkg{chemmacros} package~\cite{pkg:chemmacros} and its \acs{iupac}
@@ -163,6 +163,12 @@ package~\cite{pkg:chemnum}.
 \begin{itemize}
   \item The package is now distributed independently from the \pkg{chemmacros}
     package.
+\end{itemize}
+
+\subsection{Version~0.5}
+\begin{itemize}
+  \item The deprecated macros \cs*{Chem\meta{\ldots}} have been dropped and
+    will now cause an error is used.
 \end{itemize}
 
 \section{Define Mappings}
