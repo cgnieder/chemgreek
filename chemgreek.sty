@@ -27,8 +27,8 @@
 % The Current Maintainer of this work is Clemens Niederberger.
 % --------------------------------------------------------------------------
 \RequirePackage{expl3,xparse}
-\def\chemgreek@version{0.5a}
-\def\chemgreek@date{2015/03/13}
+\def\chemgreek@version{1.0-alpha-1}
+\def\chemgreek@date{2015/03/27}
 
 \ProvidesExplPackage{chemgreek}{\chemgreek@date}{\chemgreek@version}
   {interface for upright greek letters for use in chemistry (CN)}
@@ -55,8 +55,10 @@
       { \prg_return_true: }
       { \prg_return_false: }
   }
-\cs_generate_variant:Nn \chemgreek_if_package_loaded:nF { V }
+\cs_generate_variant:Nn \chemgreek_if_package_loaded:nTF { V }
+\cs_generate_variant:Nn \chemgreek_if_package_loaded:nF  { V }
 
+% check if a package has been loaded with a certain option:
 \prg_new_protected_conditional:Npnn \chemgreek_if_package_with:nn #1#2 {T,F,TF}
   {
     \cs_if_exist:cTF {opt@#1.sty}
@@ -68,9 +70,32 @@
       { \prg_return_false: }
   }
 
+% check if a mapping needs a package:
+\tl_new:N \l__chemgreek_mapping_package_tl
+\prg_new_protected_conditional:Npnn \chemgreek_if_mapping_package:n #1 {T,F,TF}
+  {
+    \prop_get:NnN \l__chemgreek_packages_prop {#1}
+      \l__chemgreek_mapping_package_tl
+    \quark_if_no_value:VTF \l__chemgreek_mapping_package_tl
+      { \prg_return_false: }
+      { \prg_return_true: }
+  }
+
+% check if needed package has been loaded:
+\prg_new_protected_conditional:Npnn \chemgreek_if_mapping_package_loaded:n #1 {T,F,TF}
+  {
+    \chemgreek_if_mapping_package:nTF {#1}
+      {
+        \chemgreek_if_package_loaded:VTF \l__chemgreek_mapping_package_tl
+          { \prg_return_true: }
+          { \prg_return_false: }
+      }
+      { \prg_return_true: }
+  }
+
 % ----------------------------------------------------------------------------
 % messages
-\msg_new:nnn { chemgreek } { mapping-not-defined }
+\msg_new:nnn {chemgreek} {mapping-not-defined}
   {
     You~ chose~ the~ mapping~ `#1'~ \msg_line_context: \c_space_tl which~ has~
     apparently~ not~ been~ defined,~ yet.~ If~ this~ is~ due~ to~ a~
@@ -79,7 +104,7 @@
     \declarechemgreekmapping .
   }
 
-\msg_new:nnn { chemgreek } { mapping-already-defined }
+\msg_new:nnn {chemgreek} {mapping-already-defined}
   {
     It~ seems~ you're~ trying~ to~ define~ the~ mapping~ `#1'~
     \msg_line_context: .~ However,~ this~ mapping~ does~ already~ exist.~ If~
@@ -87,21 +112,23 @@
     via~ \token_to_str:N \renewchemgreekmapping .
   }
 
-\msg_new:nnn { chemgreek } { mapping-active }
+\msg_new:nnn {chemgreek} {mapping-active}
   {
     The~ mapping~ `#1'~ already~ is~ active~ \msg_line_context: .~ I'm~ doing~
     nothing.
   }
 
-\msg_new:nnn { chemgreek } { package-missing }
+\msg_new:nnn {chemgreek} {mapping-activated}
+  { Activating~ mapping~ `#1'~ \msg_line_context: . }
+
+\msg_new:nnn {chemgreek} {package-missing}
   {
-    You've~ activated~ mapping~ `#1'~ which~ needs~ package~ `#2'~ loaded.~
-    However,~ package~ `#2'~ does~ not~ seem~ to~ be~ loaded~
-    \msg_line_context: .~ Using~ the~ letter~ macros~ will~ probably~ not~
-    work.~ If~ I'm~ mistaken~ then~ ignore~ this~ warning.
+    You're~ trying~ to~ activate~ the~ mapping~ `#1'~ which~ needs~ package~
+    `#2'~ loaded.~ However,~ package~ `#2'~ does~ not~ seem~ to~ be~ loaded~
+    \msg_line_context: .~ I'm~ loading~ the~ `default'~ mapping~ instead.
   }
 
-\msg_new:nnn { chemgreek } { command-dropped }
+\msg_new:nnn {chemgreek} {command-dropped}
   {
     The~ command~ \token_to_str:N #1  has~ been~ dropped.~ Use~ \token_to_str:N #2
     instead~ \msg_line_context: .
@@ -112,10 +139,7 @@
 \cs_new_protected:Npn \chemgreek_define_dropped:NN #1#2
   {
     \cs_new_protected:Npn #1
-      {
-        \msg_error:nnnn { chemgreek } { command-dropped }
-          { #1 } { #2 }
-      }
+      { \msg_error:nnnn {chemgreek} {command-dropped} {#1} {#2} }
   }
 \cs_generate_variant:Nn \chemgreek_define_dropped:NN { cc }
 
@@ -152,16 +176,19 @@
 
 % ----------------------------------------------------------------------------
 % variants of kernel functions:
-\cs_generate_variant:Nn \prop_put:Nnn { cxV }
-\cs_generate_variant:Nn \tl_if_eq:nnTF { V }
+\cs_generate_variant:Nn \prop_put:Nnn          { cxV }
+\cs_generate_variant:Nn \prop_get:Nn           { cV }
+\cs_generate_variant:Nn \tl_if_eq:nnTF         { V }
+\cs_generate_variant:Nn \msg_warning:nnnn      { nnnV }
+\cs_generate_variant:Nn \quark_if_no_value:nTF { V }
 
 % ----------------------------------------------------------------------------
 % helper function to retrieve upper- and lowercase entries while the mapping
 % happens:
 \cs_new_protected:Npn \__chemgreek_get_upper_lower:w #1 / #2 \q_stop
   {
-    \tl_set:Nn \l__chemgreek_tmpa_tl { #1 }
-    \tl_set:Nn \l__chemgreek_tmpb_tl { #2 }
+    \tl_set:Nn \l__chemgreek_tmpa_tl {#1}
+    \tl_set:Nn \l__chemgreek_tmpb_tl {#2}
   }
 
 % ----------------------------------------------------------------------------
@@ -178,11 +205,11 @@
   }
 
 % a conditional for testing if a mapping is active:
-\tl_new:N \l__chemgreek_active_mapping_tl
+\tl_new:N \l_chemgreek_active_mapping_tl
 \prg_new_conditional:Npnn \chemgreek_if_mapping_active:n #1 {p,T,F,TF}
   {
     \tl_if_eq:NcTF
-      \l__chemgreek_active_mapping_tl
+      \l_chemgreek_active_mapping_tl
       { c__chemgreek_mapping_#1_tl }
       { \prg_return_true: }
       { \prg_return_false: }
@@ -196,40 +223,33 @@
 % the main mapping function:
 % #1: mapping-name
 % #2: package name
-% #3: mapping-entries
+% #3: mapping entries
+\cs_new_protected:Npn \chemgreek_declare_mapping:nnn #1#2#3
+  {
+    \prop_if_exist:cF { l__chemgreek_uppercase_mapping_#1_prop }
+      { \prop_new:c { l__chemgreek_uppercase_mapping_#1_prop } }
+    \prop_if_exist:cF { l__chemgreek_lowercase_mapping_#1_prop }
+      { \prop_new:c { l__chemgreek_lowercase_mapping_#1_prop } }
+    \tl_if_exist:cF { c__chemgreek_mapping_#1_tl }
+      { \tl_const:cn { c__chemgreek_mapping_#1_tl } {#1} }
+    \tl_if_blank:nTF {#2}
+      { \prop_remove:Nn \l__chemgreek_packages_prop {#1} }
+      { \prop_put:Nnn \l__chemgreek_packages_prop {#1} {#2} }
+    \__chemgreek_set_mapping:nn {#1} {#3}
+  }
+
 \cs_new_protected:Npn \chemgreek_new_mapping:nnn #1#2#3
   {
-    \chemgreek_if_mapping_exists:nTF { #1 }
-      { \msg_error:nnn { chemgreek } { mapping-already-defined } { #1 } }
-      {
-        \prop_new:c { l__chemgreek_uppercase_mapping_#1_prop }
-        \prop_new:c { l__chemgreek_lowercase_mapping_#1_prop }
-        \tl_const:cn { c__chemgreek_mapping_#1_tl } { #1 }
-        \prop_put:Nnn \l__chemgreek_packages_prop { #1 } { #2 }
-        \__chemgreek_set_mapping:nn { #1 } { #3 }
-      }
+    \chemgreek_if_mapping_exists:nTF {#1}
+      { \msg_error:nnn {chemgreek} {mapping-already-defined} {#1} }
+      { \chemgreek_declare_mapping:nnn {#1} {#2} {#3} }
   }
 
 \cs_new_protected:Npn \chemgreek_renew_mapping:nnn #1#2#3
   {
-    \chemgreek_if_mapping_exists:nTF { #1 }
-      {
-        \prop_put:Nnn \l__chemgreek_packages_prop { #1 } { #2 }
-        \__chemgreek_set_mapping:nn { #1 } { #3 }
-      }
-      { \msg_error:nnn { chemgreek } { mapping-not-defined } { #1 } }
-  }
-
-\cs_new_protected:Npn \chemgreek_declare_mapping:nnn #1#2#3
-  {
-    \chemgreek_if_mapping_exists:nF { #1 }
-      {
-        \prop_new:c { l__chemgreek_uppercase_mapping_#1_prop }
-        \prop_new:c { l__chemgreek_lowercase_mapping_#1_prop }
-        \tl_const:cn { c__chemgreek_mapping_#1_tl } { #1 }
-      }
-    \prop_put:Nnn \l__chemgreek_packages_prop { #1 } { #2 }
-    \__chemgreek_set_mapping:nn { #1 } { #3 }
+    \chemgreek_if_mapping_exists:nTF {#1}
+      { \chemgreek_declare_mapping:nnn {#1} {#2} {#3} }
+      { \msg_error:nnn {chemgreek} {mapping-not-defined} {#1} }
   }
 
 \cs_new_protected:Npn \__chemgreek_set_mapping:nn #1#2
@@ -237,7 +257,7 @@
     \prop_clear:c { l__chemgreek_lowercase_mapping_#1_prop }
     \prop_clear:c { l__chemgreek_uppercase_mapping_#1_prop }
     \int_zero:N \l__chemgreek_tmpa_int
-    \clist_map_inline:nn { #2 }
+    \clist_map_inline:nn {#2}
       {
         \int_incr:N \l__chemgreek_tmpa_int
         \__chemgreek_get_upper_lower:w ##1 \q_stop
@@ -250,16 +270,74 @@
       }
   }
 
+% aliasing mappings:
+% #1: new mapping
+% #2: existing mapping
+\cs_new_protected:Npn \chemgreek_new_mapping_alias:nn #1#2
+  {
+    \chemgreek_if_mapping_exists:nTF {#1}
+      { \msg_error:nnn {chemgreek} {mapping-already-defined} {#1} }
+      {
+        \chemgreek_if_mapping_exists:nTF {#2}
+          { \chemgreek_declare_mapping_alias:nn {#1} {#2} }
+          { \msg_error:nnn {chemgreek} {mapping-not-defined} {#2} }
+      }
+  }
+
+\cs_new_protected:Npn \chemgreek_renew_mapping_alias:nn #1#2
+  {
+    \chemgreek_if_mapping_exists:nTF {#1}
+      {
+        \chemgreek_if_mapping_exists:nTF {#2}
+          { \chemgreek_declare_mapping_alias:nn {#1} {#2} }
+          { \msg_error:nnn {chemgreek} {mapping-not-defined} {#2} }
+      }
+      { \msg_error:nnn {chemgreek} {mapping-not-defined} {#1} }
+  }
+
+\cs_new_protected:Npn \chemgreek_declare_mapping_alias:nn #1#2
+  {
+    \chemgreek_if_mapping_exists:nT {#2}
+      {
+        \prop_if_exist:cF { l__chemgreek_uppercase_mapping_#1_prop }
+          { \prop_new:c { l__chemgreek_uppercase_mapping_#1_prop } }
+        \prop_if_exist:cF { l__chemgreek_lowercase_mapping_#1_prop }
+          { \prop_new:c { l__chemgreek_lowercase_mapping_#1_prop } }
+        \prop_get:NnNT \l__chemgreek_packages_prop {#2} \l__chemgreek_tmpa_tl
+          { \prop_put:NnV \l__chemgreek_packages_prop {#1} \l__chemgreek_tmpa_tl }
+        \prop_put:Nnn \l__chemgreek_packages_prop {#1} {#2}
+        \tl_map_inline:Nn \c__chemgreek_alphabet_tl
+          {
+            \prop_put:cnx { l__chemgreek_uppercase_mapping_#1_prop } {##1}
+              { \prop_get:cn { l__chemgreek_uppercase_mapping_#2_prop } {##1} }
+            \prop_put:cnx { l__chemgreek_lowercase_mapping_#1_prop } {##1}
+              { \prop_get:cn { l__chemgreek_lowercase_mapping_#2_prop } {##1} }
+          }
+      }
+  }
+
+% #1: package name (optional)
+% #2: mapping-name
+% #3: mapping entries
 % the user commands:
 \NewDocumentCommand \newchemgreekmapping { O{}mm }
-  { \chemgreek_new_mapping:nn { #2 } { #1 } { #3 } }
+  { \chemgreek_new_mapping:nnn {#2} {#1} {#3} }
 
 \NewDocumentCommand \renewchemgreekmapping { O{}mm }
-  { \chemgreek_renew_mapping:nnn { #2 } { #1 } { #3 } }
+  { \chemgreek_renew_mapping:nnn {#2} {#1} {#3} }
 
 \NewDocumentCommand \declarechemgreekmapping { O{}mm }
-  { \chemgreek_declare_mapping:nnn { #2 } { #1 } { #3 } }
+  { \chemgreek_declare_mapping:nnn {#2} {#1} {#3} }
 
+\NewDocumentCommand \newchemgreekmappingalias { mm }
+  { \chemgreek_new_mapping_alias:nn {#1} {#2} }
+
+\NewDocumentCommand \renewchemgreekmappingalias { mm }
+  { \chemgreek_renew_mapping_alias:nn {#1} {#2} }
+
+\NewDocumentCommand \declarechemgreekmappingalias { mm }
+  { \chemgreek_declare_mapping_alias:nn {#1} {#2} }
+  
 % ----------------------------------------------------------------------------
 % a function to selectively change specific entries in a mapping:
 
@@ -274,69 +352,111 @@
 % #4: entry
 \cs_new_protected:Npn \chemgreek_change:nnnn #1#2#3#4
   {
-    \chemgreek_if_mapping_exists:nTF { #1 }
+    \chemgreek_if_mapping_exists:nTF {#1}
       {
         \prop_put:cnn { l__chemgreek_#2 case_mapping_#1_prop }
-          { #3 }
-          { #4 }
+          {#3}
+          {#4}
         \prop_put:Nnn \l__chemgreek_changed_mappings_prop
-          { #1 }
-          { #1 }
+          {#1}
+          {#1}
       }
-      { \msg_error:nnn { chemgreek } { mapping-not-defined } { #1 } }
+      { \msg_error:nnn {chemgreek} {mapping-not-defined} {#1} }
   }
 
 % the user command:
 \NewDocumentCommand \changechemgreeksymbol { mmmm }
-  { \chemgreek_change:nnnn { #1 } { #2 } { #3 } { #4 } }
+  { \chemgreek_change:nnnn {#1} {#2} {#3} {#4} }
 
 % ----------------------------------------------------------------------------
+\cs_new_protected:Npn \chemgreek_load_mapping_package:n #1
+  {
+    \chemgreek_if_mapping_package:nT {#1}
+      { \exp_args:NV \RequirePackage \l__chemgreek_mapping_package_tl }
+  }
+
 % a function to activate a mapping:
 % #1: mapping-name
-% TODO: error if needed package has not been loaded
 \cs_new_protected:Npn \chemgreek_activate_mapping:n #1
   {
-    \chemgreek_if_mapping_exists:nTF { #1 }
+    \chemgreek_if_mapping_exists:nTF {#1}
       {
         \bool_if:nTF
           {
-            ( \chemgreek_if_mapping_active_p:n { #1 } )
+            ( \chemgreek_if_mapping_active_p:n {#1} )
             &&
-            !( \prop_if_in_p:Nn \l__chemgreek_changed_mappings_prop { #1 } )
+            !( \prop_if_in_p:Nn \l__chemgreek_changed_mappings_prop {#1} )
           }
-          { \msg_info:nnn { chemgreek } { mapping-active } { #1 } }
+          { \msg_info:nnn {chemgreek} {mapping-active} {#1} }
           {
-            \tl_set:Nn \l__chemgreek_active_mapping_tl { #1 }
-            \prop_get:NnN \l__chemgreek_packages_prop { #1 }
-              \l__chemgreek_tmpa_tl
-           \tl_if_blank:VF \l__chemgreek_tmpa_tl
+            \chemgreek_if_mapping_package_loaded:nTF {#1}
+              { \__chemgreek_activate_mapping:n {#1} }
               {
-                \chemgreek_if_package_loaded:VF \l__chemgreek_tmpa_tl
-                  {
-                    \msg_warning:nnxx { chemgreek } { package-missing }
-                      { #1 }
-                      { \l__chemgreek_tmpa_tl }
-                  }
-              }
-            \tl_map_inline:Nn \c__chemgreek_alphabet_tl
-              {
-                \cs_set_protected:cpx
-                  {
-                    chem
-                    \str_upper_case:f { \tl_head:n {##1} }
-                    \str_lower_case:f { \tl_tail:n {##1} }
-                  }
-                  { \prop_get:cn { l__chemgreek_uppercase_mapping_#1_prop } { ##1 } }
-                \cs_set_protected:cpx { chem \str_lower_case:f {##1} }
-                  { \prop_get:cn { l__chemgreek_lowercase_mapping_#1_prop } { ##1 } }
-              }
+                \msg_warning:nnnV {chemgreek} {package-missing}
+                  {#1}
+                  \l__chemgreek_mapping_package_tl
+                \__chemgreek_activate_mapping:n {default}
+              }            
             \prop_get:NnNT \l__chemgreek_changed_mappings_prop
-              { #1 }
+              {#1}
               \l__chemgreek_tmpa_tl
-              { \prop_remove:Nn \l__chemgreek_changed_mappings_prop { #1 } }
+              { \prop_remove:Nn \l__chemgreek_changed_mappings_prop {#1} }
           }
       }
-      { \msg_error:nnn { chemgreek } { mapping-not-defined } { #1 } }
+      { \msg_error:nnn {chemgreek} {mapping-not-defined} {#1} }
+  }
+\cs_generate_variant:Nn \chemgreek_activate_mapping:n { V }
+
+\cs_new_protected:Npn \__chemgreek_activate_mapping:n #1
+  {
+    \tl_set:Nn \l_chemgreek_active_mapping_tl {#1}
+    \tl_map_inline:Nn \c__chemgreek_alphabet_tl
+      {
+        \cs_set_protected:cpx
+          {
+            chem
+            \str_upper_case:f { \tl_head:n {##1} }
+            \str_lower_case:f { \tl_tail:n {##1} }
+          }
+          { \prop_get:cn { l__chemgreek_uppercase_mapping_#1_prop } {##1} }
+        \cs_set_eq:cc
+          {
+            chemgreek_
+            \str_upper_case:f { \tl_head:n {##1} }
+            \str_lower_case:f { \tl_tail:n {##1} }
+            :
+          }
+          {
+            chem
+            \str_upper_case:f { \tl_head:n {##1} }
+            \str_lower_case:f { \tl_tail:n {##1} }
+          }
+        \cs_set_protected:cpx { chem \str_lower_case:f {##1} }
+          { \prop_get:cn { l__chemgreek_lowercase_mapping_#1_prop } {##1} }
+        \cs_set_eq:cc
+          { chemgreek_ \str_lower_case:f {##1} : }
+          { chem \str_lower_case:f {##1} }
+      }
+    \msg_info:nnn {chemgreek} {mapping-activated} {#1}
+  }
+
+% #1: mapping name
+% #2: symbol name
+\cs_new_protected:Npn \chemgreek_get_from_mapping:nn #1#2
+  {
+    \tl_set:Nx \l__chemgreek_tmpa_tl
+      {
+        \str_upper_case:f { \tl_head:n {#2} }
+        \str_lower_case:f { \tl_tail:n {#2} }
+      }
+    \str_if_eq:nVTF {#2} \l__chemgreek_tmpa_tl
+      {
+        \tl_set:Nx \l__chemgreek_tmpa_tl { \str_lower_case:f {#2} }
+        \prop_get:cV
+          { l__chemgreek_uppercase_mapping_#1_prop }
+          \l__chemgreek_tmpa_tl
+      }
+      { \prop_get:cn { l__chemgreek_lowercase_mapping_#1_prop } {#2} }
   }
 
 % user command that also loads the needed package:
@@ -344,36 +464,29 @@
 % #2: mapping-name
 \NewDocumentCommand \activatechemgreekmapping { sm }
   {
-    \IfBooleanT { #1 }
-      {
-        \prop_get:NnN \l__chemgreek_packages_prop
-          { #2 }
-          \l__chemgreek_tmpa_tl
-        \tl_if_blank:VF \l__chemgreek_tmpa_tl
-          { \exp_args:No \RequirePackage { \l__chemgreek_tmpa_tl } }
-      }
-    \chemgreek_activate_mapping:n { #2 }
+    \IfBooleanT {#1} { \chemgreek_load_mapping_package:n {#2} }
+    \chemgreek_activate_mapping:n {#2}
   }
 \@onlypreamble\activatechemgreekmapping
 
 % user command that activates a new mapping without loading the package:
 \NewDocumentCommand \selectchemgreekmapping { m }
-  { \chemgreek_activate_mapping:n { #1 } }
+  { \chemgreek_activate_mapping:n {#1} }
 
 % ----------------------------------------------------------------------------
 % debugging commands:
 \cs_new_protected:Npn \chemgreek_print_mapping:n #1
   {
     \int_gzero:N \g__chemgreek_tmpa_int
-    \begin { tabular } { llcc }
+    \begin {tabular} {llcc}
       pos & name & lower & upper \\
     \tl_map_inline:Nn \c__chemgreek_alphabet_tl
       {
         \int_gincr:N \g__chemgreek_tmpa_int
         \int_use:N \g__chemgreek_tmpa_int . &
         ##1  &
-        \prop_get:cn { l__chemgreek_lowercase_mapping_#1_prop } { ##1 } &
-        \prop_get:cn { l__chemgreek_uppercase_mapping_#1_prop } { ##1 } \\
+        \prop_get:cn { l__chemgreek_lowercase_mapping_#1_prop } {##1} &
+        \prop_get:cn { l__chemgreek_uppercase_mapping_#1_prop } {##1} \\
       }
     \end{tabular}
   }
@@ -394,7 +507,7 @@
           {
             . \c_space_tl \c_space_tl \c_space_tl \c_space_tl \c_space_tl
             \str_lower_case:f {##1} ~ => ~
-            \prop_get:cn { l__chemgreek_lowercase_mapping_#1_prop } { ##1 }
+            \prop_get:cn { l__chemgreek_lowercase_mapping_#1_prop } {##1}
           }
         \iow_log:x
           {
@@ -402,7 +515,7 @@
             \str_upper_case:f { \tl_head:n {##1} }
             \str_lower_case:f { \tl_tail:n {##1} }
             \c_space_tl => ~
-            \prop_get:cn { l__chemgreek_uppercase_mapping_#1_prop } { ##1 }
+            \prop_get:cn { l__chemgreek_uppercase_mapping_#1_prop } {##1}
           }
       }
     \iow_log:n { ................................................. }
@@ -437,7 +550,7 @@
   {
     \tl_map_inline:Nn \c__chemgreek_alphabet_tl
       {
-        \chemgreek_drop_symbol:n { ##1 }
+        \chemgreek_drop_symbol:n {##1}
         \chemgreek_drop_symbol:n
           {
             \str_upper_case:f { \tl_head:n {##1} }
@@ -453,7 +566,7 @@
 % of \int_to_alph:n
 \cs_new:Npn \chemgreek_int_to_greek:n #1
   {
-    \int_to_symbols:nnn { #1 } { 24 }
+    \int_to_symbols:nnn {#1} {24}
       {
         {  1 } { \chemalpha }
         {  2 } { \chembeta }
@@ -484,7 +597,7 @@
 
 \cs_new:Npn \chemgreek_int_to_Greek:n #1
   {
-    \int_to_symbols:nnn { #1 } { 24 }
+    \int_to_symbols:nnn {#1} {24}
       {
         {  1 } { \chemAlpha }
         {  2 } { \chemBeta }
@@ -516,7 +629,7 @@
 % ----------------------------------------------------------------------------
 % predefine some mappings
 % default:
-\chemgreek_new_mapping:nnn { default } { }
+\chemgreek_new_mapping:nnn {default} { }
   {
     \ensuremath{\alpha}   / \ensuremath{\mathrm{A}} , %  1
     \ensuremath{\beta}    / \ensuremath{\mathrm{B}} , %  2
@@ -545,7 +658,7 @@
   }
 
 % default-variant:
-\chemgreek_new_mapping:nnn { var-default } { }
+\chemgreek_new_mapping:nnn {var-default} { }
   {
     \ensuremath{\alpha}      / \ensuremath{\mathrm{A}} , %  1
     \ensuremath{\beta}       / \ensuremath{\mathrm{B}} , %  2
@@ -574,7 +687,7 @@
   }
 
 % mathdesign:
-\chemgreek_new_mapping:nnn { mathdesign } { mathdesign }
+\chemgreek_new_mapping:nnn {mathdesign} {mathdesign}
   {
     \ensuremath{\alphaup}      / \ensuremath{\mathrm{A}} , %  1
     \ensuremath{\betaup}       / \ensuremath{\mathrm{B}} , %  2
@@ -603,7 +716,7 @@
   }
 
 % textgreek:
-\chemgreek_new_mapping:nnn { textgreek } { textgreek }
+\chemgreek_new_mapping:nnn {textgreek} {textgreek}
   {
     \mbox{\textalpha}   / \mbox{\textAlpha} ,   %  1
     \mbox{\textbeta}    / \mbox{\textBeta} ,    %  2
@@ -632,7 +745,7 @@
   }
 
 % upgreek:
-\chemgreek_new_mapping:nnn { upgreek } { upgreek }
+\chemgreek_new_mapping:nnn {upgreek} {upgreek}
   {
     \ensuremath{\upalpha}      / \ensuremath{\mathrm{A}} , %  1
     \ensuremath{\upbeta}       / \ensuremath{\mathrm{B}} , %  2
@@ -661,7 +774,7 @@
   }
 
 % kpfonts:
-\chemgreek_new_mapping:nnn { kpfonts } { kpfonts }
+\chemgreek_new_mapping:nnn {kpfonts} {kpfonts}
   {
     \ensuremath{\alphaup}      / \ensuremath{\mathrm{A}} , %  1
     \ensuremath{\betaup}       / \ensuremath{\mathrm{B}} , %  2
@@ -690,7 +803,7 @@
   }
 
 % newtx:
-\chemgreek_new_mapping:nnn { newtx } { newtxmath }
+\chemgreek_new_mapping:nnn {newtx} {newtxmath}
   {
     \ensuremath{\upalpha}      / \ensuremath{\mathrm{A}} , %  1
     \ensuremath{\upbeta}       / \ensuremath{\mathrm{B}} , %  2
@@ -733,7 +846,7 @@
       { \ensuremath { \use:c { other #1 } } }
   }
 
-\chemgreek_new_mapping:nnn { fourier } { fourier }
+\chemgreek_new_mapping:nnn {fourier} {fourier}
   {
     \__chemgreek_lfourier:n {alpha}   / \ensuremath{\mathrm{A}} ,           %  1
     \__chemgreek_lfourier:n {beta}    / \ensuremath{\mathrm{B}} ,           %  2
@@ -762,7 +875,7 @@
   }
 
 % textalpha:
-\chemgreek_new_mapping:nnn { textalpha } { textalpha }
+\chemgreek_new_mapping:nnn {textalpha} {textalpha}
   {
     \mbox{\textalpha}   / \mbox{\textAlpha} ,   %  1
     \mbox{\textbeta}    / \mbox{\textBeta} ,    %  2
@@ -791,7 +904,7 @@
   }
 
 % textgreek:
-\chemgreek_new_mapping:nnn { fontspec } { fontspec }
+\chemgreek_new_mapping:nnn {fontspec} {fontspec}
   {
     \mbox{\textalpha}   / \mbox{\textAlpha} ,   %  1
     \mbox{\textbeta}    / \mbox{\textBeta} ,    %  2
@@ -819,9 +932,32 @@
     \mbox{\textomega}   / \mbox{\textOmega}     % 24
   }
 
-% activate default mapping
-\chemgreek_activate_mapping:n { default }
+% ----------------------------------------------------------------------------
+% default activating of a mapping if a corresponding package has been loaded.
 
+\cs_new_protected:Npn \chemgreek_choose_mapping:
+  {
+    \tl_if_blank:VT \l_chemgreek_active_mapping_tl
+      {
+        \int_zero:N \l__chemgreek_tmpa_int
+        \prop_map_inline:Nn \l__chemgreek_packages_prop
+          {
+            \chemgreek_if_package_loaded:nT {##2}
+              {
+                \int_incr:N \l__chemgreek_tmpa_int
+                \tl_set:Nn \l__chemgreek_tmpa_tl {##1}
+              }
+          }
+        \int_compare:nTF { \l__chemgreek_tmpa_int = 1 }
+          { \chemgreek_activate_mapping:V \l__chemgreek_tmpa_tl }
+          { \chemgreek_activate_mapping:n {default} }
+      }
+  }
+
+\AtBeginDocument { \chemgreek_choose_mapping: }
+
+% ----------------------------------------------------------------------------
+% Greek letters in bookmarks:
 \AtBeginDocument
   {
     \chemgreek_if_package_with:nnT {hyperref} {unicode}
@@ -843,7 +979,20 @@
                         \str_upper_case:f { \tl_head:n {#1} }
                         \str_lower_case:f { \tl_tail:n {#1} }
                       }
+                    \cs_set_eq:cc
+                      {
+                        chemgreek_
+                        \str_upper_case:f { \tl_head:n {#1} }
+                        \str_lower_case:f { \tl_tail:n {#1} }
+                        :
+                      }
+                      {
+                        text
+                        \str_upper_case:f { \tl_head:n {#1} }
+                        \str_lower_case:f { \tl_tail:n {#1} }
+                      }
                     \cs_set_eq:cc { chem #1 } { text #1 }
+                    \cs_set_eq:cc { chemgreek_ #1 : } { text #1 }
                   }
               }
           }
@@ -882,6 +1031,17 @@ HISTORY:
 2015/03/13 - v0.5a - adapt to expl3's new case changing functions
                    - change status of \Chem... macros from deprecated to
                      dropped
+2015/03/27 - v1.0  - if a mapping is activated that needs a package and the
+                     package is missing the mapping falls back to `default'
+                   - if exactly one package for one of the mappings has been
+                     loaded the corresponding mapping is activated at begin
+                     document
+                   - expl3 versions of the letter macros (\chemgreek_alpha: ,
+                     \chemgreek_Alpha: , ...)
+                   - \chemgreek_get_from_mapping:nn
+                   - \chemgreek_declare_mapping_alias:nn ,
+                     \chemgreek_new_mapping_alias:nn ,
+                     \chemgreek_renew_mapping_alias:nn
 
 TODO:
 
