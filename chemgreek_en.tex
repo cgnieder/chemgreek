@@ -1,6 +1,6 @@
 % arara: pdflatex
-% !arara: biber
-% !arara: pdflatex
+% arara: biber
+% arara: pdflatex
 % arara: pdflatex
 % --------------------------------------------------------------------------
 % the CHEMGREEK package
@@ -30,7 +30,7 @@
 %
 % The Current Maintainer of this work is Clemens Niederberger.
 % --------------------------------------------------------------------------
-\documentclass[load-preamble+]{cnltx-doc}
+\documentclass[load-preamble+,scrartcl={listof=totoc}]{cnltx-doc}
 \usepackage[utf8]{inputenc}
 \usepackage[greek=newtx]{chemmacros}
 \setcnltx{
@@ -48,12 +48,14 @@
     activatechemgreekmapping,
     changechemgreeksymbol, chemalpha, chembeta, chemgamma, chemdelta,
       chemDelta, chemomega, chemphi, chemPhi,
+    chemgreekmappingsymbol,
     declarechemgreekmapping,
     newchemgreekmapping,
     printchemgreekalphabet,
     renewchemgreekmapping,
     selectchemgreekmapping
-  }
+  } ,
+  index-setup = { level = \section , headers={\indexname}{\indexname} }
 }
 
 \usepackage{booktabs}
@@ -84,7 +86,7 @@
   accsupp   = PDF
 }
 
-\defbibheading{bibliography}{\addsec{References}}
+\defbibheading{bibliography}{\section{References}}
 
 \newcommand*\tablehead[1]{\textrm{\bfseries#1}}
 
@@ -94,6 +96,8 @@
 \AfterEndEnvironment{sourcecode}{\vspace{\baselineskip}}
 
 \begin{document}
+
+\listoftables
 
 \section{Introduction}
 The \chemgreek{} package is an auxiliary package for other chemistry packages
@@ -171,23 +175,47 @@ package~\cite{pkg:chemnum}.
     will now cause an error is used.
 \end{itemize}
 
-\section{Define Mappings}
+\subsection{Version~1.0}
+\begin{itemize}
+  \item If a mapping is activated that needs a package and the package is
+    missing \chemgreek\ falls back to the `default' mapping now.
+  \item If exactly one package for one of the mappings has been loaded the
+    corresponding mapping is activated at begin document, see also
+    section~\ref{sec:pred-mapp-select}.
+  \item expl3 versions of the letter macros (\verbcode+\chemgreek_alpha:+,
+    \verbcode+\chemgreek_Alpha:+ , \ldots)
+  \item New macros \cs{chemgreekmappingsymbol} (see
+    section~\ref{sec:additional-macros}), \cs{newchemgreekmappingalias},
+    \cs{renewchemgreekmappingalias} and \cs{declarechemgreekmappingalias} (see
+    section~\ref{sec:define-mappings}).
+\end{itemize}
+
+\section{Define Mappings}\label{sec:define-mappings}
 \selectchemgreekmapping{default}
 
 \chemgreek's main commands are:
 \begin{commands}
   \command{newchemgreekmapping}[\oarg{package}\marg{name}\marg{mapping list}]
-    \changedversion{0.3}Add a new mapping to \chemgreek.  Issue an error if it
+    \changedversion{0.3}Add a new mapping to \chemgreek.  Issues an error if it
     already exists.  With the optional argument the package that is needed for
     this mapping can (and should) be specified.
   \command{renewchemgreekmapping}[\oarg{package}\marg{name}\marg{mapping list}]
-    \changedversion{0.3}Renew a \chemgreek{} mapping.  Issue an error if it
+    \changedversion{0.3}Renew a \chemgreek{} mapping.  Issues an error if it
     doesn't exist yet.  With the optional argument the package that is needed
     for this mapping can (and should) be specified.
   \command{declarechemgreekmapping}[\oarg{package}\marg{name}\marg{mapping list}]
     \changedversion{0.3}Declare a new mapping to \chemgreek.  If the mapping
     already exists it will be overwritten.  With the optional argument the
     package that is needed for this mapping can (and should) be specified.
+  \command{newchemgreekmappingalias}[\marg{new mapping name}\marg{existing mapping name}]
+    \sinceversion{1.0}Define an alias mapping.  Issues an error if \meta{new
+    mapping name} already exists.
+  \command{renewchemgreekmappingalias}[\marg{new mapping name}\marg{existing mapping name}]
+    \sinceversion{1.0}Redefine a mapping to an alias of an existing mapping.
+    Issues an error if \meta{new mapping name} doesn't exist, yet.
+  \command{declarechemgreekmappingalias}[\marg{new mapping name}\marg{existing mapping name}]
+    \sinceversion{1.0}Define an alias mapping.  Doesn't check, if \marg{new
+      mapping name} exists or not.
 \end{commands}
 
 The command \cs{newchemgreekmapping} needs to get a comma separated list of
@@ -243,7 +271,7 @@ available mappings.
   Default mapping: \chemphi\ and \chemPhi, $\phi$ and $\Phi$
 \end{example}
 
-\section{Predefined Mappings and Selection of a Mapping}
+\section{Predefined Mappings and Selection of a Mapping}\label{sec:pred-mapp-select}
 \chemgreek{} predefines some mappings.  Some of the mappings require additional
 packages to be loaded.  The mapping names and the required packages are listed
 in table~\ref{tab:mappings}.  Ths mapping \code{fontspec} is a bit different
@@ -273,19 +301,33 @@ use a font that has the Greek glyphs.
   \label{tab:mappings}
 \end{table}
 
-A mapping is selected and activated with one of the following commands:
+If exactly \emph{one} of the packages required by one of the mappings has been
+loaded such that an unambiguous choice is possible then \chemgreek{} will
+choose and activate the corresponding mapping at begin document.  If an
+umbiguous choice isn't possible the n \chemgreek\ will select the `default'
+mapping at begin document.  If a user has selected a mapping manually in the
+preamble (with one of the commands explained in a bit) then \chemgreek\ will
+do nothing on its own.
+
+A mapping is selected and activated manually with one of the following
+commands:
 \begin{commands}
   \command{activatechemgreekmapping}[\sarg\marg{name}]
-    \changedversion{0.3}This commands selects and activates the mapping
+    \changedversion{1.0}This commands selects and activates the mapping
     \meta{name}.  If the star variant is used also the package of mapping
-    \meta{name} (as defined with \cs{newchemgreekmapping} is loaded.  The
-    command can only be used in the document preamble.
+    \meta{name} (as defined with \cs{newchemgreekmapping} is loaded.
+    Otherwise a required package has to be loaded additionally the usual
+    way via \cs*{usepackage} or \cs*{RequirePackage}.  If the package hasn't
+    been loaded a warning will be written to the log and the `default' mapping
+    will be activated instead.  \emph{The command can only be used in the
+      document preamble}.
   \command{selectchemgreekmapping}[\marg{name}]
-    \changedversion{0.3}This commands selects and activates the mapping
+    \changedversion{1.0}This commands selects and activates the mapping
     \meta{name}.  A required package has to be loaded additionally the usual
     way via \cs*{usepackage} or \cs*{RequirePackage}.  If the package hasn't
-    been loaded a warning will be written to the log.  The command can be used
-    throughout the document.
+    been loaded a warning will be written to the log and the `default' mapping
+    will be activated instead.  \emph{The command can be used throughout the
+    document}.
 \end{commands}
 
 \begin{example}
@@ -310,7 +352,7 @@ to choose a font containing the needed glyphs.
   \end{document}
 \end{example}
 
-\section{Changing a Specific Symbol in an Existing Mapping}
+\section{Changing a Specific Symbol in an Existing Mapping}\label{sec:chang-spec-symb}
 If you should want to change a specific entry of a specific mapping it would
 be rather tedious to redefine the whole mapping.  That is why \chemgreek\
 provides a command for that purpose:
@@ -330,7 +372,7 @@ mapping afterwards:
   \chemalpha
 \end{example}
 
-\section{Inspecting a Mapping}
+\section{Inspecting a Mapping}\label{sec:inspecting-mapping}
 \selectchemgreekmapping{newtx}
 If you want to check if a mapping has been correctly set you can use the
 following commands:
@@ -354,6 +396,43 @@ following commands:
   \label{tab:showmapping}
 \end{table}
 
-\clearpage
+\section{Additional Macros}\label{sec:additional-macros}
+
+\begin{commands}
+  \command{chemgreekmappingsymbol}[\marg{mapping name}\marg{symbol name}]
+    A command which prints a specific symbol of a specific mapping.  The mapping
+    \meta{mapping name} doesn't need to be active but package dependencies
+    must be taken care of, \emph{i.e.}, if \meta{mapping name} needs a certain
+    package to be loaded you should make sure that it is.
+\end{commands}
+
+\appendix
+
+\section{Overviews Over the Mappings}\label{sec:overv-over-mapp}
+
+\newcommand*\demonstratemapping[2][]{%
+  \ifblank{#1}
+    {
+      \subsection{Mapping `\texttt{#2}'}
+      \includegraphics{chemgreek-#2.pdf}
+    }
+    {
+      \subsection{Mapping `\texttt{#2}' with package option \option*{#1}}
+      \includegraphics{chemgreek-#2-#1.pdf}
+    }
+}
+
+\demonstratemapping{default}
+\demonstratemapping{var-default}
+\demonstratemapping{textgreek}
+\demonstratemapping{upgreek}
+\demonstratemapping{newtx}
+\demonstratemapping{kpfonts}
+\demonstratemapping[utopia]{mathdesign}
+\demonstratemapping[charter]{mathdesign}
+\demonstratemapping{fourier}
+\demonstratemapping{textalpha}
+\subsection{Mapping `\texttt{fontspec}' with Font `Linux Libertine'}
+\includegraphics{chemgreek-fontspec.pdf}
 
 \end{document}
