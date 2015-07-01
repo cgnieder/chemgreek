@@ -1,7 +1,7 @@
-% arara: pdflatex
-% arara: biber
-% arara: pdflatex
-% arara: pdflatex
+% arara: pdflatex: { shell: on }
+% !arara: biber
+% !arara: pdflatex
+% !arara: pdflatex
 % --------------------------------------------------------------------------
 % the CHEMGREEK package
 %
@@ -32,11 +32,11 @@
 % --------------------------------------------------------------------------
 \documentclass[load-preamble+,scrartcl={listof=totoc}]{cnltx-doc}
 \usepackage[utf8]{inputenc}
-\usepackage[greek=newtx]{chemmacros}
+\usepackage{chemgreek}
 \setcnltx{
   package  = {chemgreek},
   info     = {interface for upright greek letters for use in chemistry},
-  url      = https://github.com/cgnieder/chemgreek/ ,
+  url      = http://www.mychemistry.eu/forums/forum/chemgreek/ ,
   authors  = Clemens Niederberger ,
   email    = contact@mychemistry.eu ,
   abstract = {%
@@ -63,6 +63,9 @@
 \expandafter\def\csname libertine@figurestyle\endcsname{LF}
 \usepackage[libertine]{newtxmath}
 \expandafter\def\csname libertine@figurestyle\endcsname{OsF}
+
+\usepackage{chemmacros}
+\selectchemgreekmapping{newtx}
 
 \usepackage[biblatex]{embrac}
 \ChangeEmph{[}[,.02em]{]}[.055em,-.08em]
@@ -96,6 +99,7 @@
 \AfterEndEnvironment{sourcecode}{\vspace{\baselineskip}}
 
 \begin{document}
+\selectchemgreekmapping{newtx}
 
 \listoftables
 
@@ -129,7 +133,8 @@ package~\cite{pkg:chemnum}.
 \subsection{Version~0.2}
 \begin{itemize}
   \item The mapping ``mathdesign'' has been added.  In order to use it you
-    need the \pkg{mathdesign} package~\cite{pkg:mathdesign} loaded.
+    need the \pkg{mathdesign} package~\cite{pkg:mathdesign} loaded and use one
+    of its options.
   \item The mapping ``fourier'' has been added.  In order to use it you
     need the \pkg{fourier} package~\cite{pkg:fourier} loaded.
 \end{itemize}
@@ -172,7 +177,7 @@ package~\cite{pkg:chemnum}.
 \subsection{Version~0.5}
 \begin{itemize}
   \item The deprecated macros \cs*{Chem\meta{\ldots}} have been dropped and
-    will now cause an error is used.
+    will now cause an error if used.
 \end{itemize}
 
 \subsection{Version~1.0}
@@ -183,7 +188,7 @@ package~\cite{pkg:chemnum}.
     corresponding mapping is activated at begin document, see also
     section~\ref{sec:pred-mapp-select}.
   \item expl3 versions of the letter macros (\verbcode+\chemgreek_alpha:+,
-    \verbcode+\chemgreek_Alpha:+ , \ldots)
+    \verbcode+\chemgreek_Alpha:+, \ldots)
   \item New macros \cs{chemgreekmappingsymbol} (see
     section~\ref{sec:additional-macros}), \cs{newchemgreekmappingalias},
     \cs{renewchemgreekmappingalias} and \cs{declarechemgreekmappingalias} (see
@@ -196,13 +201,13 @@ package~\cite{pkg:chemnum}.
 \chemgreek's main commands are:
 \begin{commands}
   \command{newchemgreekmapping}[\oarg{package}\marg{name}\marg{mapping list}]
-    \changedversion{0.3}Add a new mapping to \chemgreek.  Issues an error if it
-    already exists.  With the optional argument the package that is needed for
-    this mapping can (and should) be specified.
+    \changedversion{0.3}Add a new mapping to \chemgreek.  Issues an error if a
+    mapping with the same name already exists.  With the optional argument the
+    package that is needed for this mapping can (and should) be specified.
   \command{renewchemgreekmapping}[\oarg{package}\marg{name}\marg{mapping list}]
-    \changedversion{0.3}Renew a \chemgreek{} mapping.  Issues an error if it
-    doesn't exist yet.  With the optional argument the package that is needed
-    for this mapping can (and should) be specified.
+    \changedversion{0.3}Renew a \chemgreek{} mapping.  Issues an error if the
+    mapping doesn't exist yet.  With the optional argument the package that is
+    needed for this mapping can (and should) be specified.
   \command{declarechemgreekmapping}[\oarg{package}\marg{name}\marg{mapping list}]
     \changedversion{0.3}Declare a new mapping to \chemgreek.  If the mapping
     already exists it will be overwritten.  With the optional argument the
@@ -263,18 +268,23 @@ uppercase name of the Greek letter.
 
 The default mapping is -- as you can probably see -- \emph{not an upright
   one}.  This is because \chemgreek{} will not make any choice for a specific
-package but let's the user (or another package) choose.  The \pkg{chemmacros}
-package for example provides a package option that selects one of the
-available mappings.
+package but let's the user (or another package) choose.  \chemgreek\ however
+recognizes if \emph{an unambiguous choice} for one of the upright mappings is
+possible and if it is will select the appropriate mapping at begin document.
 
 \begin{example}
   Default mapping: \chemphi\ and \chemPhi, $\phi$ and $\Phi$
 \end{example}
 
+\begin{commands}
+  \expandable\command{l\_chemgreek\_active\_mapping\_tl}
+    The currently active mapping is always available in the token list variable.
+\end{commands}
+
 \section{Predefined Mappings and Selection of a Mapping}\label{sec:pred-mapp-select}
-\chemgreek{} predefines some mappings.  Some of the mappings require additional
+\chemgreek\ predefines some mappings.  Some of the mappings require additional
 packages to be loaded.  The mapping names and the required packages are listed
-in table~\ref{tab:mappings}.  Ths mapping \code{fontspec} is a bit different
+in table~\ref{tab:mappings}.  The mapping \code{fontspec} is a bit different
 here:  if you use this mapping then the fact is used that \pkg{fontspec} also
 defines commands like \cs*{textalpha}.  However, they only work if you also
 use a font that has the Greek glyphs.
@@ -302,9 +312,9 @@ use a font that has the Greek glyphs.
 \end{table}
 
 If exactly \emph{one} of the packages required by one of the mappings has been
-loaded such that an unambiguous choice is possible then \chemgreek{} will
+loaded such that an unambiguous choice is possible then \chemgreek\ will
 choose and activate the corresponding mapping at begin document.  If an
-umbiguous choice isn't possible the n \chemgreek\ will select the `default'
+umbiguous choice isn't possible then \chemgreek\ will select the `default'
 mapping at begin document.  If a user has selected a mapping manually in the
 preamble (with one of the commands explained in a bit) then \chemgreek\ will
 do nothing on its own.

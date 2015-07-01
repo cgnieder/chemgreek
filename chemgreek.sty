@@ -27,11 +27,15 @@
 % The Current Maintainer of this work is Clemens Niederberger.
 % --------------------------------------------------------------------------
 \RequirePackage{expl3,xparse}
-\def\chemgreek@version{1.0}
-\def\chemgreek@date{2015/04/09}
+\ExplSyntaxOn
+\tl_const:Nn \c_chemgreek_date_tl {2015/07/01}
+\tl_const:Nn \c_chemgreek_version_tl {1.0a}
+\tl_const:Nn \c_chemgreek_info_tl {interface for upright greek letters for use in chemistry}
 
-\ProvidesExplPackage{chemgreek}{\chemgreek@date}{\chemgreek@version}
-  {interface for upright greek letters for use in chemistry (CN)}
+\ProvidesExplPackage{chemgreek}
+  {\c_chemgreek_date_tl}
+  {\c_chemgreek_version_tl}
+  {\c_chemgreek_info_tl\c_space_tl (CN)}
 
 % ----------------------------------------------------------------------------
 % temporary variables:
@@ -674,7 +678,7 @@
     \ensuremath{\varepsilon} / \ensuremath{\mathrm{E}} , %  5
     \ensuremath{\zeta}       / \ensuremath{\mathrm{Z}} , %  6
     \ensuremath{\eta}        / \ensuremath{\mathrm{H}} , %  7
-    \ensuremath{\theta}      / \ensuremath{\Theta} ,     %  8
+    \ensuremath{\vartheta}   / \ensuremath{\Theta} ,     %  8
     \ensuremath{\iota}       / \ensuremath{\mathrm{I}} , %  9
     \ensuremath{\kappa}      / \ensuremath{\mathrm{K}} , % 10
     \ensuremath{\lambda}     / \ensuremath{\Lambda} ,    % 11
@@ -682,12 +686,12 @@
     \ensuremath{\nu}         / \ensuremath{\mathrm{N}} , % 13
     \ensuremath{\xi}         / \ensuremath{\Xi} ,        % 14
     \ensuremath{o}           / \ensuremath{\mathrm{O}} , % 15
-    \ensuremath{\pi}         / \ensuremath{\Pi} ,        % 16
+    \ensuremath{\varpi}      / \ensuremath{\Pi} ,        % 16
     \ensuremath{\varrho}     / \ensuremath{\mathrm{P}} , % 17
-    \ensuremath{\sigma}      / \ensuremath{\Sigma} ,     % 18
+    \ensuremath{\varsigma}   / \ensuremath{\Sigma} ,     % 18
     \ensuremath{\tau}        / \ensuremath{\mathrm{T}} , % 19
     \ensuremath{\upsilon}    / \ensuremath{\Upsilon} ,   % 20
-    \ensuremath{\phi}        / \ensuremath{\Phi} ,       % 21
+    \ensuremath{\varphi}     / \ensuremath{\Phi} ,       % 21
     \ensuremath{\psi}        / \ensuremath{\Psi} ,       % 22
     \ensuremath{\chi}        / \ensuremath{\mathrm{X}} , % 23
     \ensuremath{\omega}      / \ensuremath{\Omega}       % 24
@@ -1049,6 +1053,7 @@ HISTORY:
                    - \chemgreek_declare_mapping_alias:nn ,
                      \chemgreek_new_mapping_alias:nn ,
                      \chemgreek_renew_mapping_alias:nn
+2015/07/01 - v1.0a - corrected `var-default' mapping
 
 TODO:
 
