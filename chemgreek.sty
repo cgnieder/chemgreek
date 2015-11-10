@@ -28,8 +28,8 @@
 % --------------------------------------------------------------------------
 \RequirePackage{expl3,xparse}
 \ExplSyntaxOn
-\tl_const:Nn \c_chemgreek_date_tl {2015/07/01}
-\tl_const:Nn \c_chemgreek_version_tl {1.0a}
+\tl_const:Nn \c_chemgreek_date_tl {2015/11/10}
+\tl_const:Nn \c_chemgreek_version_tl {1.0b}
 \tl_const:Nn \c_chemgreek_info_tl {interface for upright greek letters for use in chemistry}
 
 \ProvidesExplPackage{chemgreek}
@@ -554,6 +554,7 @@
 
 % ----------------------------------------------------------------------------
 % drop old macro names that started with an uppercase C:
+% remove this in March 2016
 \cs_new_protected:Npn \chemgreek_drop_symbol:n #1
   { \chemgreek_define_dropped:cc { Chem#1 } { chem#1 } }
 
@@ -943,6 +944,41 @@
     \mbox{\textomega}   / \mbox{\textOmega}     % 24
   }
 
+% pxgreeks: \iftgs@itupper
+\cs_new:Npn \__chemgreek_upxgreeks:n #1
+  {
+    \chemgreek_latex_if:nTF { tgs@itupper }
+      { \ensuremath { \use:c { other #1 } } }
+      { \ensuremath { \use:c {  #1 } } }
+  }
+\chemgreek_new_mapping:nnn {pxgreeks} {pxgreeks}
+  {
+    \ensuremath{\alphaup}      / \ensuremath{\mathrm{A}} ,            %  1
+    \ensuremath{\betaup}       / \ensuremath{\mathrm{B}} ,            %  2
+    \ensuremath{\gammaup}      / \__chemgreek_upxgreeks:n {Gamma} ,   %  3
+    \ensuremath{\deltaup}      / \__chemgreek_upxgreeks:n {Delta} ,   %  4
+    \ensuremath{\epsilonup}    / \ensuremath{\mathrm{E}} ,            %  5
+    \ensuremath{\zetaup}       / \ensuremath{\mathrm{Z}} ,            %  6
+    \ensuremath{\etaup}        / \ensuremath{\mathrm{H}} ,            %  7
+    \ensuremath{\thetaup}      / \__chemgreek_upxgreeks:n {Theta} ,   %  8
+    \ensuremath{\iotaup}       / \ensuremath{\mathrm{I}} ,            %  9
+    \ensuremath{\kappaup}      / \ensuremath{\mathrm{K}} ,            % 10
+    \ensuremath{\lambdaup}     / \__chemgreek_upxgreeks:n {Lambda} ,  % 11
+    \ensuremath{\muup}         / \ensuremath{\mathrm{M}} ,            % 12
+    \ensuremath{\nuup}         / \ensuremath{\mathrm{N}} ,            % 13
+    \ensuremath{\xiup}         / \__chemgreek_upxgreeks:n {Xi} ,      % 14
+    \ensuremath{\omicronup}    / \ensuremath{\mathrm{O}} ,            % 15
+    \ensuremath{\piup}         / \__chemgreek_upxgreeks:n {Pi} ,      % 16
+    \ensuremath{\rhoup}        / \ensuremath{\mathrm{R}} ,            % 17
+    \ensuremath{\sigmaup}      / \__chemgreek_upxgreeks:n {Sigma} ,   % 18
+    \ensuremath{\tauup}        / \ensuremath{\mathrm{T}} ,            % 19
+    \ensuremath{\upsilonup}    / \__chemgreek_upxgreeks:n {Upsilon} , % 20
+    \ensuremath{\phiup}        / \__chemgreek_upxgreeks:n {Phi} ,     % 21
+    \ensuremath{\psiup}        / \__chemgreek_upxgreeks:n {Psi} ,     % 22
+    \ensuremath{\chiup}        / \ensuremath{\mathrm{X}} ,            % 23
+    \ensuremath{\omegaup}      / \__chemgreek_upxgreeks:n {Omega}     % 24
+  }
+  
 % ----------------------------------------------------------------------------
 % default activating of a mapping if a corresponding package has been loaded.
 
@@ -1054,6 +1090,7 @@ HISTORY:
                      \chemgreek_new_mapping_alias:nn ,
                      \chemgreek_renew_mapping_alias:nn
 2015/07/01 - v1.0a - corrected `var-default' mapping
+2015/11/10 - v1.0b - new mapping `pxgreeks'
 
 TODO:
 

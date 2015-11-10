@@ -30,7 +30,8 @@
 %
 % The Current Maintainer of this work is Clemens Niederberger.
 % --------------------------------------------------------------------------
-\documentclass[load-preamble+,scrartcl={listof=totoc}]{cnltx-doc}
+\documentclass[load-preamble+]{cnltx-doc}
+\KOMAoption{listof}{totoc}
 \usepackage[utf8]{inputenc}
 \usepackage{chemgreek}
 \setcnltx{
@@ -58,7 +59,7 @@
   index-setup = { level = \section , headers={\indexname}{\indexname} }
 }
 
-\usepackage{booktabs}
+\usepackage{array,booktabs}
 
 \expandafter\def\csname libertine@figurestyle\endcsname{LF}
 \usepackage[libertine]{newtxmath}
@@ -115,7 +116,7 @@ in base \LaTeX.
 
 \chemgreek{} offers a possibility to map those different interfaces to a
 unified set of macros for usage in a chemistry package.  This is useful as
-then for example names like \iupac{\b\-\D\-gluco|pyranose} can be typeset
+then for example names like \iupac{\b-\D-gluco|pyranose} can be typeset
 with a semantic interface and still have matching greek letters while the user
 is not limited to a certain package or font.  Consequently this package is
 used by the \pkg{chemmacros} package~\cite{pkg:chemmacros} and its \acs{iupac}
@@ -301,6 +302,7 @@ use a font that has the Greek glyphs.
       upgreek     & \pkg{upgreek} \cite{pkg:upgreek} \\
       newtx       & \pkg*{newtxmath} \cite{pkg:newtx} \\
       kpfonts     & \pkg{kpfonts} \cite{pkg:kpfonts} \\
+      pxgreeks    & \pkg{pxgreeks} \cite{pkg:pxgreeks} \\
       mathdesign  & \pkg{mathdesign} \cite{pkg:mathdesign} \\
       fourier     & \pkg{fourier} \cite{pkg:fourier} \\
       textalpha   & \pkg{textalpha} \cite{bnd:greek-fontenc} \\
@@ -438,10 +440,12 @@ following commands:
 \demonstratemapping{upgreek}
 \demonstratemapping{newtx}
 \demonstratemapping{kpfonts}
+\demonstratemapping{pxgreeks}
 \demonstratemapping[utopia]{mathdesign}
 \demonstratemapping[charter]{mathdesign}
 \demonstratemapping{fourier}
 \demonstratemapping{textalpha}
+
 \subsection{Mapping `\texttt{fontspec}' with Font `Linux Libertine'}
 \includegraphics{chemgreek-fontspec.pdf}
 
