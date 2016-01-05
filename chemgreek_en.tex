@@ -94,10 +94,10 @@
 
 \newcommand*\tablehead[1]{\textrm{\bfseries#1}}
 
-\BeforeBeginEnvironment{example}{\vspace{\baselineskip}}
-\AfterEndEnvironment{example}{\vspace{\baselineskip}}
-\BeforeBeginEnvironment{sourcecode}{\vspace{\baselineskip}}
-\AfterEndEnvironment{sourcecode}{\vspace{\baselineskip}}
+% \BeforeBeginEnvironment{example}{\vspace{\baselineskip}}
+% \AfterEndEnvironment{example}{\vspace{\baselineskip}}
+% \BeforeBeginEnvironment{sourcecode}{\vspace{\baselineskip}}
+% \AfterEndEnvironment{sourcecode}{\vspace{\baselineskip}}
 
 \begin{document}
 \selectchemgreekmapping{newtx}
@@ -127,8 +127,10 @@ package~\cite{pkg:chemnum}.
 \license
 
 \chemgreek{} loads the following packages:
-\pkg{expl3}\footnote{\CTANurl{l3kernel}}~\cite{bnd:l3kernel} and
-\pkg{xparse}\footnote{\CTANurl{l3packages}}~\cite{bnd:l3packages}.
+\pkg{expl3}\footnote{\CTANurl{l3kernel}}~\cite{bnd:l3kernel},
+\pkg{xparse}\footnote{\CTANurl{l3packages}}~\cite{bnd:l3packages} and
+\pkg{amstext}\footnote{\url{http://ctan.org/tex-archive/macros/latex/required/amslatex/math}}%
+~\cite{pkg:amstext}.
 
 \section{News}
 \subsection{Version~0.2}

@@ -12,7 +12,7 @@
 % If you have any ideas, questions, suggestions or bugs to report, please
 % feel free to contact me.
 % --------------------------------------------------------------------------
-% Copyright 2011-2015 Clemens Niederberger
+% Copyright 2011-2016 Clemens Niederberger
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either version 1.3
@@ -26,10 +26,10 @@
 %
 % The Current Maintainer of this work is Clemens Niederberger.
 % --------------------------------------------------------------------------
-\RequirePackage{expl3,xparse}
+\RequirePackage{expl3,xparse,amstext}
 \ExplSyntaxOn
-\tl_const:Nn \c_chemgreek_date_tl {2015/11/10}
-\tl_const:Nn \c_chemgreek_version_tl {1.0b}
+\tl_const:Nn \c_chemgreek_date_tl {2016/01/05}
+\tl_const:Nn \c_chemgreek_version_tl {1.0c}
 \tl_const:Nn \c_chemgreek_info_tl {interface for upright greek letters for use in chemistry}
 
 \ProvidesExplPackage{chemgreek}
@@ -222,6 +222,12 @@
 % ----------------------------------------------------------------------------
 % a property lists that holds the needed package names for a mapping
 \prop_new:N \l__chemgreek_packages_prop
+
+% ----------------------------------------------------------------------------
+% a function that ensures we're in text mode:
+
+\cs_new_protected:Npn \chemgreek_text:n #1
+  { \ensuremath { \text {#1} } }
 
 % ----------------------------------------------------------------------------
 % the main mapping function:
@@ -730,30 +736,30 @@
 % textgreek:
 \chemgreek_new_mapping:nnn {textgreek} {textgreek}
   {
-    \mbox{\textalpha}   / \mbox{\textAlpha} ,   %  1
-    \mbox{\textbeta}    / \mbox{\textBeta} ,    %  2
-    \mbox{\textgamma}   / \mbox{\textGamma} ,   %  3
-    \mbox{\textdelta}   / \mbox{\textDelta} ,   %  4
-    \mbox{\textepsilon} / \mbox{\textEpsilon} , %  5
-    \mbox{\textzeta}    / \mbox{\textZeta} ,    %  6
-    \mbox{\texteta}     / \mbox{\textEta} ,     %  7
-    \mbox{\texttheta}   / \mbox{\textTheta} ,   %  8
-    \mbox{\textiota}    / \mbox{\textIota} ,    %  9
-    \mbox{\textkappa}   / \mbox{\textKappa} ,   % 10
-    \mbox{\textlambda}  / \mbox{\textLambda} ,  % 11
-    \mbox{\textmugreek} / \mbox{\textMu} ,      % 12
-    \mbox{\textnu}      / \mbox{\textNu} ,      % 13
-    \mbox{\textxi}      / \mbox{\textXi} ,      % 14
-    \mbox{\textomikron} / \mbox{\textOmikron} , % 15
-    \mbox{\textpi}      / \mbox{\textPi} ,      % 16
-    \mbox{\textrho}     / \mbox{\textRho} ,     % 17
-    \mbox{\textsigma}   / \mbox{\textSigma} ,   % 18
-    \mbox{\texttau}     / \mbox{\textTau} ,     % 19
-    \mbox{\textupsilon} / \mbox{\textUpsilon} , % 20
-    \mbox{\textphi}     / \mbox{\textPhi} ,     % 21
-    \mbox{\textpsi}     / \mbox{\textPsi} ,     % 22
-    \mbox{\textchi}     / \mbox{\textChi} ,     % 23
-    \mbox{\textomega}   / \mbox{\textOmega}     % 24
+    \chemgreek_text:n {\textalpha}   / \chemgreek_text:n {\textAlpha} ,   %  1
+    \chemgreek_text:n {\textbeta}    / \chemgreek_text:n {\textBeta} ,    %  2
+    \chemgreek_text:n {\textgamma}   / \chemgreek_text:n {\textGamma} ,   %  3
+    \chemgreek_text:n {\textdelta}   / \chemgreek_text:n {\textDelta} ,   %  4
+    \chemgreek_text:n {\textepsilon} / \chemgreek_text:n {\textEpsilon} , %  5
+    \chemgreek_text:n {\textzeta}    / \chemgreek_text:n {\textZeta} ,    %  6
+    \chemgreek_text:n {\texteta}     / \chemgreek_text:n {\textEta} ,     %  7
+    \chemgreek_text:n {\texttheta}   / \chemgreek_text:n {\textTheta} ,   %  8
+    \chemgreek_text:n {\textiota}    / \chemgreek_text:n {\textIota} ,    %  9
+    \chemgreek_text:n {\textkappa}   / \chemgreek_text:n {\textKappa} ,   % 10
+    \chemgreek_text:n {\textlambda}  / \chemgreek_text:n {\textLambda} ,  % 11
+    \chemgreek_text:n {\textmugreek} / \chemgreek_text:n {\textMu} ,      % 12
+    \chemgreek_text:n {\textnu}      / \chemgreek_text:n {\textNu} ,      % 13
+    \chemgreek_text:n {\textxi}      / \chemgreek_text:n {\textXi} ,      % 14
+    \chemgreek_text:n {\textomikron} / \chemgreek_text:n {\textOmikron} , % 15
+    \chemgreek_text:n {\textpi}      / \chemgreek_text:n {\textPi} ,      % 16
+    \chemgreek_text:n {\textrho}     / \chemgreek_text:n {\textRho} ,     % 17
+    \chemgreek_text:n {\textsigma}   / \chemgreek_text:n {\textSigma} ,   % 18
+    \chemgreek_text:n {\texttau}     / \chemgreek_text:n {\textTau} ,     % 19
+    \chemgreek_text:n {\textupsilon} / \chemgreek_text:n {\textUpsilon} , % 20
+    \chemgreek_text:n {\textphi}     / \chemgreek_text:n {\textPhi} ,     % 21
+    \chemgreek_text:n {\textpsi}     / \chemgreek_text:n {\textPsi} ,     % 22
+    \chemgreek_text:n {\textchi}     / \chemgreek_text:n {\textChi} ,     % 23
+    \chemgreek_text:n {\textomega}   / \chemgreek_text:n {\textOmega}     % 24
   }
 
 % upgreek:
@@ -889,68 +895,69 @@
 % textalpha:
 \chemgreek_new_mapping:nnn {textalpha} {textalpha}
   {
-    \mbox{\textalpha}   / \mbox{\textAlpha} ,   %  1
-    \mbox{\textbeta}    / \mbox{\textBeta} ,    %  2
-    \mbox{\textgamma}   / \mbox{\textGamma} ,   %  3
-    \mbox{\textdelta}   / \mbox{\textDelta} ,   %  4
-    \mbox{\textepsilon} / \mbox{\textEpsilon} , %  5
-    \mbox{\textzeta}    / \mbox{\textZeta} ,    %  6
-    \mbox{\texteta}     / \mbox{\textEta} ,     %  7
-    \mbox{\texttheta}   / \mbox{\textTheta} ,   %  8
-    \mbox{\textiota}    / \mbox{\textIota} ,    %  9
-    \mbox{\textkappa}   / \mbox{\textKappa} ,   % 10
-    \mbox{\textlambda}  / \mbox{\textLambda} ,  % 11
-    \mbox{\textmu}      / \mbox{\textMu} ,      % 12
-    \mbox{\textnu}      / \mbox{\textNu} ,      % 13
-    \mbox{\textxi}      / \mbox{\textXi} ,      % 14
-    \mbox{\textomicron} / \mbox{\textOmicron} , % 15
-    \mbox{\textpi}      / \mbox{\textPi} ,      % 16
-    \mbox{\textrho}     / \mbox{\textRho} ,     % 17
-    \mbox{\textsigma}   / \mbox{\textSigma} ,   % 18
-    \mbox{\texttau}     / \mbox{\textTau} ,     % 19
-    \mbox{\textupsilon} / \mbox{\textUpsilon} , % 20
-    \mbox{\textphi}     / \mbox{\textPhi} ,     % 21
-    \mbox{\textpsi}     / \mbox{\textPsi} ,     % 22
-    \mbox{\textchi}     / \mbox{\textChi} ,     % 23
-    \mbox{\textomega}   / \mbox{\textOmega}     % 24
+    \chemgreek_text:n {\textalpha}   / \chemgreek_text:n {\textAlpha} ,   %  1
+    \chemgreek_text:n {\textbeta}    / \chemgreek_text:n {\textBeta} ,    %  2
+    \chemgreek_text:n {\textgamma}   / \chemgreek_text:n {\textGamma} ,   %  3
+    \chemgreek_text:n {\textdelta}   / \chemgreek_text:n {\textDelta} ,   %  4
+    \chemgreek_text:n {\textepsilon} / \chemgreek_text:n {\textEpsilon} , %  5
+    \chemgreek_text:n {\textzeta}    / \chemgreek_text:n {\textZeta} ,    %  6
+    \chemgreek_text:n {\texteta}     / \chemgreek_text:n {\textEta} ,     %  7
+    \chemgreek_text:n {\texttheta}   / \chemgreek_text:n {\textTheta} ,   %  8
+    \chemgreek_text:n {\textiota}    / \chemgreek_text:n {\textIota} ,    %  9
+    \chemgreek_text:n {\textkappa}   / \chemgreek_text:n {\textKappa} ,   % 10
+    \chemgreek_text:n {\textlambda}  / \chemgreek_text:n {\textLambda} ,  % 11
+    \chemgreek_text:n {\textmu}      / \chemgreek_text:n {\textMu} ,      % 12
+    \chemgreek_text:n {\textnu}      / \chemgreek_text:n {\textNu} ,      % 13
+    \chemgreek_text:n {\textxi}      / \chemgreek_text:n {\textXi} ,      % 14
+    \chemgreek_text:n {\textomicron} / \chemgreek_text:n {\textOmicron} , % 15
+    \chemgreek_text:n {\textpi}      / \chemgreek_text:n {\textPi} ,      % 16
+    \chemgreek_text:n {\textrho}     / \chemgreek_text:n {\textRho} ,     % 17
+    \chemgreek_text:n {\textsigma}   / \chemgreek_text:n {\textSigma} ,   % 18
+    \chemgreek_text:n {\texttau}     / \chemgreek_text:n {\textTau} ,     % 19
+    \chemgreek_text:n {\textupsilon} / \chemgreek_text:n {\textUpsilon} , % 20
+    \chemgreek_text:n {\textphi}     / \chemgreek_text:n {\textPhi} ,     % 21
+    \chemgreek_text:n {\textpsi}     / \chemgreek_text:n {\textPsi} ,     % 22
+    \chemgreek_text:n {\textchi}     / \chemgreek_text:n {\textChi} ,     % 23
+    \chemgreek_text:n {\textomega}   / \chemgreek_text:n {\textOmega}     % 24
   }
 
 % textgreek:
 \chemgreek_new_mapping:nnn {fontspec} {fontspec}
   {
-    \mbox{\textalpha}   / \mbox{\textAlpha} ,   %  1
-    \mbox{\textbeta}    / \mbox{\textBeta} ,    %  2
-    \mbox{\textgamma}   / \mbox{\textGamma} ,   %  3
-    \mbox{\textdelta}   / \mbox{\textDelta} ,   %  4
-    \mbox{\textepsilon} / \mbox{\textEpsilon} , %  5
-    \mbox{\textzeta}    / \mbox{\textZeta} ,    %  6
-    \mbox{\texteta}     / \mbox{\textEta} ,     %  7
-    \mbox{\texttheta}   / \mbox{\textTheta} ,   %  8
-    \mbox{\textiota}    / \mbox{\textIota} ,    %  9
-    \mbox{\textkappa}   / \mbox{\textKappa} ,   % 10
-    \mbox{\textlambda}  / \mbox{\textLambda} ,  % 11
-    \mbox{\textmu}      / \mbox{\textMu} ,      % 12
-    \mbox{\textnu}      / \mbox{\textNu} ,      % 13
-    \mbox{\textxi}      / \mbox{\textXi} ,      % 14
-    \mbox{o}            / \mbox{O} ,            % 15
-    \mbox{\textpi}      / \mbox{\textPi} ,      % 16
-    \mbox{\textrho}     / \mbox{\textRho} ,     % 17
-    \mbox{\textsigma}   / \mbox{\textSigma} ,   % 18
-    \mbox{\texttau}     / \mbox{\textTau} ,     % 19
-    \mbox{\textupsilon} / \mbox{\textUpsilon} , % 20
-    \mbox{\textphi}     / \mbox{\textPhi} ,     % 21
-    \mbox{\textpsi}     / \mbox{\textPsi} ,     % 22
-    \mbox{\textchi}     / \mbox{\textChi} ,     % 23
-    \mbox{\textomega}   / \mbox{\textOmega}     % 24
+    \chemgreek_text:n {\textalpha}   / \chemgreek_text:n {\textAlpha} ,   %  1
+    \chemgreek_text:n {\textbeta}    / \chemgreek_text:n {\textBeta} ,    %  2
+    \chemgreek_text:n {\textgamma}   / \chemgreek_text:n {\textGamma} ,   %  3
+    \chemgreek_text:n {\textdelta}   / \chemgreek_text:n {\textDelta} ,   %  4
+    \chemgreek_text:n {\textepsilon} / \chemgreek_text:n {\textEpsilon} , %  5
+    \chemgreek_text:n {\textzeta}    / \chemgreek_text:n {\textZeta} ,    %  6
+    \chemgreek_text:n {\texteta}     / \chemgreek_text:n {\textEta} ,     %  7
+    \chemgreek_text:n {\texttheta}   / \chemgreek_text:n {\textTheta} ,   %  8
+    \chemgreek_text:n {\textiota}    / \chemgreek_text:n {\textIota} ,    %  9
+    \chemgreek_text:n {\textkappa}   / \chemgreek_text:n {\textKappa} ,   % 10
+    \chemgreek_text:n {\textlambda}  / \chemgreek_text:n {\textLambda} ,  % 11
+    \chemgreek_text:n {\textmu}      / \chemgreek_text:n {\textMu} ,      % 12
+    \chemgreek_text:n {\textnu}      / \chemgreek_text:n {\textNu} ,      % 13
+    \chemgreek_text:n {\textxi}      / \chemgreek_text:n {\textXi} ,      % 14
+    \chemgreek_text:n {o}            / \chemgreek_text:n {O} ,            % 15
+    \chemgreek_text:n {\textpi}      / \chemgreek_text:n {\textPi} ,      % 16
+    \chemgreek_text:n {\textrho}     / \chemgreek_text:n {\textRho} ,     % 17
+    \chemgreek_text:n {\textsigma}   / \chemgreek_text:n {\textSigma} ,   % 18
+    \chemgreek_text:n {\texttau}     / \chemgreek_text:n {\textTau} ,     % 19
+    \chemgreek_text:n {\textupsilon} / \chemgreek_text:n {\textUpsilon} , % 20
+    \chemgreek_text:n {\textphi}     / \chemgreek_text:n {\textPhi} ,     % 21
+    \chemgreek_text:n {\textpsi}     / \chemgreek_text:n {\textPsi} ,     % 22
+    \chemgreek_text:n {\textchi}     / \chemgreek_text:n {\textChi} ,     % 23
+    \chemgreek_text:n {\textomega}   / \chemgreek_text:n {\textOmega}     % 24
   }
 
 % pxgreeks: \iftgs@itupper
 \cs_new:Npn \__chemgreek_upxgreeks:n #1
   {
     \chemgreek_latex_if:nTF { tgs@itupper }
-      { \ensuremath { \use:c { other #1 } } }
-      { \ensuremath { \use:c {  #1 } } }
+      { \ensuremath { \use:c {other#1} } }
+      { \ensuremath { \use:c {#1} } }
   }
+
 \chemgreek_new_mapping:nnn {pxgreeks} {pxgreeks}
   {
     \ensuremath{\alphaup}      / \ensuremath{\mathrm{A}} ,            %  1
@@ -1038,8 +1045,8 @@
                         \str_upper_case:f { \tl_head:n {#1} }
                         \str_lower_case:f { \tl_tail:n {#1} }
                       }
-                    \cs_set_eq:cc { chem #1 } { text #1 }
-                    \cs_set_eq:cc { chemgreek_ #1 : } { text #1 }
+                    \cs_set_eq:cc {chem#1} {text#1}
+                    \cs_set_eq:cc { chemgreek_ #1 : } {text#1}
                   }
               }
           }
