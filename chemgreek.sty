@@ -181,7 +181,7 @@
 % ----------------------------------------------------------------------------
 % variants of kernel functions:
 \cs_generate_variant:Nn \prop_put:Nnn          { cxV }
-\cs_generate_variant:Nn \prop_get:Nn           { cV }
+\cs_generate_variant:Nn \prop_item:Nn          { cV }
 \cs_generate_variant:Nn \tl_if_eq:nnTF         { V }
 \cs_generate_variant:Nn \msg_warning:nnnn      { nnnV }
 \cs_generate_variant:Nn \quark_if_no_value:nTF { V }
@@ -319,9 +319,9 @@
         \tl_map_inline:Nn \c__chemgreek_alphabet_tl
           {
             \prop_put:cnx { l__chemgreek_uppercase_mapping_#1_prop } {##1}
-              { \prop_get:cn { l__chemgreek_uppercase_mapping_#2_prop } {##1} }
+              { \prop_item:cn { l__chemgreek_uppercase_mapping_#2_prop } {##1} }
             \prop_put:cnx { l__chemgreek_lowercase_mapping_#1_prop } {##1}
-              { \prop_get:cn { l__chemgreek_lowercase_mapping_#2_prop } {##1} }
+              { \prop_item:cn { l__chemgreek_lowercase_mapping_#2_prop } {##1} }
           }
       }
   }
@@ -432,7 +432,7 @@
             \str_upper_case:f { \tl_head:n {##1} }
             \str_lower_case:f { \tl_tail:n {##1} }
           }
-          { \prop_get:cn { l__chemgreek_uppercase_mapping_#1_prop } {##1} }
+          { \prop_item:cn { l__chemgreek_uppercase_mapping_#1_prop } {##1} }
         \cs_set_eq:cc
           {
             chemgreek_
@@ -446,7 +446,7 @@
             \str_lower_case:f { \tl_tail:n {##1} }
           }
         \cs_set_protected:cpx { chem \str_lower_case:f {##1} }
-          { \prop_get:cn { l__chemgreek_lowercase_mapping_#1_prop } {##1} }
+          { \prop_item:cn { l__chemgreek_lowercase_mapping_#1_prop } {##1} }
         \cs_set_eq:cc
           { chemgreek_ \str_lower_case:f {##1} : }
           { chem \str_lower_case:f {##1} }
@@ -470,7 +470,7 @@
           { l__chemgreek_uppercase_mapping_#1_prop }
           \l__chemgreek_tmpa_tl
       }
-      { \prop_get:cn { l__chemgreek_lowercase_mapping_#1_prop } {#2} }
+      { \prop_item:cn { l__chemgreek_lowercase_mapping_#1_prop } {#2} }
   }
 
 \NewDocumentCommand \chemgreekmappingsymbol { mm }
@@ -502,8 +502,8 @@
         \int_gincr:N \g__chemgreek_tmpa_int
         \int_use:N \g__chemgreek_tmpa_int . &
         ##1  &
-        \prop_get:cn { l__chemgreek_lowercase_mapping_#1_prop } {##1} &
-        \prop_get:cn { l__chemgreek_uppercase_mapping_#1_prop } {##1} \\
+        \prop_item:cn { l__chemgreek_lowercase_mapping_#1_prop } {##1} &
+        \prop_item:cn { l__chemgreek_uppercase_mapping_#1_prop } {##1} \\
       }
     \end{tabular}
   }
@@ -524,7 +524,7 @@
           {
             . \c_space_tl \c_space_tl \c_space_tl \c_space_tl \c_space_tl
             \str_lower_case:f {##1} ~ => ~
-            \prop_get:cn { l__chemgreek_lowercase_mapping_#1_prop } {##1}
+            \prop_item:cn { l__chemgreek_lowercase_mapping_#1_prop } {##1}
           }
         \iow_log:x
           {
@@ -532,7 +532,7 @@
             \str_upper_case:f { \tl_head:n {##1} }
             \str_lower_case:f { \tl_tail:n {##1} }
             \c_space_tl => ~
-            \prop_get:cn { l__chemgreek_uppercase_mapping_#1_prop } {##1}
+            \prop_item:cn { l__chemgreek_uppercase_mapping_#1_prop } {##1}
           }
       }
     \iow_log:n { ................................................. }
