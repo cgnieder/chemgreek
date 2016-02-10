@@ -28,8 +28,8 @@
 % --------------------------------------------------------------------------
 \RequirePackage{expl3,xparse,amstext}
 \ExplSyntaxOn
-\tl_const:Nn \c_chemgreek_date_tl {2016/01/07}
-\tl_const:Nn \c_chemgreek_version_tl {1.0d}
+\tl_const:Nn \c_chemgreek_date_tl {2016/02/10}
+\tl_const:Nn \c_chemgreek_version_tl {1.0e}
 \tl_const:Nn \c_chemgreek_info_tl {interface for upright greek letters for use in chemistry}
 
 \ProvidesExplPackage{chemgreek}
@@ -466,7 +466,7 @@
     \str_if_eq:nVTF {#2} \l__chemgreek_tmpa_tl
       {
         \tl_set:Nx \l__chemgreek_tmpa_tl { \str_lower_case:f {#2} }
-        \prop_get:cV
+        \prop_item:cV
           { l__chemgreek_uppercase_mapping_#1_prop }
           \l__chemgreek_tmpa_tl
       }
@@ -1098,6 +1098,9 @@ HISTORY:
                      \chemgreek_renew_mapping_alias:nn
 2015/07/01 - v1.0a - corrected `var-default' mapping
 2015/11/10 - v1.0b - new mapping `pxgreeks'
+2016/01/05 - v1.0c - fix issue #1 https://github.com/cgnieder/chemgreek/issues/1
+2016/01/07 - v1.0d - \prop_get:Nn => \prop_item:Nn
+2016/02/10 - v1.0e - one missed \prop_get:Nn
 
 TODO:
 
