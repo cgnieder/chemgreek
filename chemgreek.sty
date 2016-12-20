@@ -28,8 +28,8 @@
 % --------------------------------------------------------------------------
 \RequirePackage{expl3,xparse,amstext}
 \ExplSyntaxOn
-\tl_const:Nn \c_chemgreek_date_tl {2016/02/10}
-\tl_const:Nn \c_chemgreek_version_tl {1.0e}
+\tl_const:Nn \c_chemgreek_date_tl {2016/12/20}
+\tl_const:Nn \c_chemgreek_version_tl {1.1}
 \tl_const:Nn \c_chemgreek_info_tl {interface for upright greek letters for use in chemistry}
 
 \ProvidesExplPackage{chemgreek}
@@ -924,30 +924,30 @@
 % textgreek:
 \chemgreek_new_mapping:nnn {fontspec} {fontspec}
   {
-    \chemgreek_text:n {\textalpha}   / \chemgreek_text:n {\textAlpha} ,   %  1
-    \chemgreek_text:n {\textbeta}    / \chemgreek_text:n {\textBeta} ,    %  2
-    \chemgreek_text:n {\textgamma}   / \chemgreek_text:n {\textGamma} ,   %  3
-    \chemgreek_text:n {\textdelta}   / \chemgreek_text:n {\textDelta} ,   %  4
-    \chemgreek_text:n {\textepsilon} / \chemgreek_text:n {\textEpsilon} , %  5
-    \chemgreek_text:n {\textzeta}    / \chemgreek_text:n {\textZeta} ,    %  6
-    \chemgreek_text:n {\texteta}     / \chemgreek_text:n {\textEta} ,     %  7
-    \chemgreek_text:n {\texttheta}   / \chemgreek_text:n {\textTheta} ,   %  8
-    \chemgreek_text:n {\textiota}    / \chemgreek_text:n {\textIota} ,    %  9
-    \chemgreek_text:n {\textkappa}   / \chemgreek_text:n {\textKappa} ,   % 10
-    \chemgreek_text:n {\textlambda}  / \chemgreek_text:n {\textLambda} ,  % 11
-    \chemgreek_text:n {\textmu}      / \chemgreek_text:n {\textMu} ,      % 12
-    \chemgreek_text:n {\textnu}      / \chemgreek_text:n {\textNu} ,      % 13
-    \chemgreek_text:n {\textxi}      / \chemgreek_text:n {\textXi} ,      % 14
-    \chemgreek_text:n {o}            / \chemgreek_text:n {O} ,            % 15
-    \chemgreek_text:n {\textpi}      / \chemgreek_text:n {\textPi} ,      % 16
-    \chemgreek_text:n {\textrho}     / \chemgreek_text:n {\textRho} ,     % 17
-    \chemgreek_text:n {\textsigma}   / \chemgreek_text:n {\textSigma} ,   % 18
-    \chemgreek_text:n {\texttau}     / \chemgreek_text:n {\textTau} ,     % 19
-    \chemgreek_text:n {\textupsilon} / \chemgreek_text:n {\textUpsilon} , % 20
-    \chemgreek_text:n {\textphi}     / \chemgreek_text:n {\textPhi} ,     % 21
-    \chemgreek_text:n {\textchi}     / \chemgreek_text:n {\textChi} ,     % 22
-    \chemgreek_text:n {\textpsi}     / \chemgreek_text:n {\textPsi} ,     % 23
-    \chemgreek_text:n {\textomega}   / \chemgreek_text:n {\textOmega}     % 24
+    \chemgreek_text:n {\symbol{"03B1}} / \chemgreek_text:n {\symbol{"0391}} , %  1
+    \chemgreek_text:n {\symbol{"03B2}} / \chemgreek_text:n {\symbol{"0392}} , %  2
+    \chemgreek_text:n {\symbol{"03B3}} / \chemgreek_text:n {\symbol{"0393}} , %  3
+    \chemgreek_text:n {\symbol{"03B4}} / \chemgreek_text:n {\symbol{"0394}} , %  4
+    \chemgreek_text:n {\symbol{"03B5}} / \chemgreek_text:n {\symbol{"0395}} , %  5
+    \chemgreek_text:n {\symbol{"03B6}} / \chemgreek_text:n {\symbol{"0396}} , %  6
+    \chemgreek_text:n {\symbol{"03B7}} / \chemgreek_text:n {\symbol{"0397}} , %  7
+    \chemgreek_text:n {\symbol{"03B8}} / \chemgreek_text:n {\symbol{"0398}} , %  8
+    \chemgreek_text:n {\symbol{"03B9}} / \chemgreek_text:n {\symbol{"0399}} , %  9
+    \chemgreek_text:n {\symbol{"03BA}} / \chemgreek_text:n {\symbol{"039A}} , % 10
+    \chemgreek_text:n {\symbol{"03BB}} / \chemgreek_text:n {\symbol{"039B}} , % 11
+    \chemgreek_text:n {\symbol{"03BC}} / \chemgreek_text:n {\symbol{"039C}} , % 12
+    \chemgreek_text:n {\symbol{"03BD}} / \chemgreek_text:n {\symbol{"039D}} , % 13
+    \chemgreek_text:n {\symbol{"03BE}} / \chemgreek_text:n {\symbol{"039E}} , % 14
+    \chemgreek_text:n {\symbol{"03BF}} / \chemgreek_text:n {\symbol{"039F}} , % 15
+    \chemgreek_text:n {\symbol{"03C0}} / \chemgreek_text:n {\symbol{"03A0}} , % 16
+    \chemgreek_text:n {\symbol{"03C1}} / \chemgreek_text:n {\symbol{"03A1}} , % 17
+    \chemgreek_text:n {\symbol{"03C3}} / \chemgreek_text:n {\symbol{"03A3}} , % 18
+    \chemgreek_text:n {\symbol{"03C4}} / \chemgreek_text:n {\symbol{"03A4}} , % 19
+    \chemgreek_text:n {\symbol{"03C5}} / \chemgreek_text:n {\symbol{"03A5}} , % 20
+    \chemgreek_text:n {\symbol{"03C6}} / \chemgreek_text:n {\symbol{"03A6}} , % 21
+    \chemgreek_text:n {\symbol{"03C7}} / \chemgreek_text:n {\symbol{"03A7}} , % 22
+    \chemgreek_text:n {\symbol{"03C8}} / \chemgreek_text:n {\symbol{"03A8}} , % 23
+    \chemgreek_text:n {\symbol{"03C9}} / \chemgreek_text:n {\symbol{"03A9}}   % 24
   }
 
 % pxgreeks: \iftgs@itupper
@@ -1101,6 +1101,8 @@ HISTORY:
 2016/01/05 - v1.0c - fix issue #1 https://github.com/cgnieder/chemgreek/issues/1
 2016/01/07 - v1.0d - \prop_get:Nn => \prop_item:Nn
 2016/02/10 - v1.0e - one missed \prop_get:Nn
+2016/20/12 - v1.1  - fix wrong alphabet order (issue #5)
+                   - fix errors in fontspec mapping (issue #4)
 
 TODO:
 

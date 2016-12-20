@@ -56,7 +56,7 @@
     renewchemgreekmapping,
     selectchemgreekmapping
   } ,
-  index-setup = { level = \section , headers={\indexname}{\indexname} }
+  index-setup = { level = \section , headers={\indexname}{\indexname} , noclearpage }
 }
 
 \usepackage{array,booktabs}
@@ -355,10 +355,10 @@ Since the \code{fontspec} mapping is a little bit different than the others
 I'd like to show a little example for it.  The difference is subtle: you need
 to choose a font containing the needed glyphs.
 
-\begin{example}[compile,program=lualatex,runs=1,add-frame=false]
+\begin{example}[compile,program=xelatex,runs=1,add-frame=false]
   \documentclass[margin=3pt]{standalone}
   \usepackage{fontspec}
-  \setmainfont{Linux Libertine O}% need a font that has the glyphs!
+  \setmainfont{LinLibertine_R.otf}% need a font that has the glyphs!
   \usepackage{chemgreek}
   \selectchemgreekmapping{fontspec}
   \begin{document}
