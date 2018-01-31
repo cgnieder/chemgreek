@@ -12,7 +12,7 @@
 % If you have any ideas, questions, suggestions or bugs to report, please
 % feel free to contact me.
 % --------------------------------------------------------------------------
-% Copyright 2011-2016 Clemens Niederberger
+% Copyright 2011-2017 Clemens Niederberger
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either version 1.3
@@ -30,7 +30,8 @@
 \ExplSyntaxOn
 \tl_const:Nn \c_chemgreek_date_tl {2016/12/20}
 \tl_const:Nn \c_chemgreek_version_tl {1.1}
-\tl_const:Nn \c_chemgreek_info_tl {interface for upright greek letters for use in chemistry}
+\tl_const:Nn \c_chemgreek_info_tl
+  {interface~ for~ upright~ Greek~ letters~ for~ use~ in~ chemistry}
 
 \ProvidesExplPackage{chemgreek}
   {\c_chemgreek_date_tl}
@@ -186,13 +187,16 @@
 \cs_generate_variant:Nn \msg_warning:nnnn      { nnnV }
 \cs_generate_variant:Nn \quark_if_no_value:nTF { V }
 
+\tl_new:N \l__chemgreek_lower_tl
+\tl_new:N \l__chemgreek_upper_tl
+
 % ----------------------------------------------------------------------------
 % helper function to retrieve upper- and lowercase entries while the mapping
 % happens:
-\cs_new_protected:Npn \__chemgreek_get_upper_lower:w #1 / #2 \q_stop
+\cs_new_protected:Npn \__chemgreek_get_upper_lower:ww #1 / #2 \q_stop
   {
-    \tl_set:Nn \l__chemgreek_tmpa_tl {#1}
-    \tl_set:Nn \l__chemgreek_tmpb_tl {#2}
+    \tl_set:Nn \l__chemgreek_lower_tl {#1}
+    \tl_set:Nn \l__chemgreek_upper_tl {#2}
   }
 
 % ----------------------------------------------------------------------------
@@ -270,13 +274,13 @@
     \clist_map_inline:nn {#2}
       {
         \int_incr:N \l__chemgreek_tmpa_int
-        \__chemgreek_get_upper_lower:w ##1 \q_stop
+        \__chemgreek_get_upper_lower:ww ##1 \q_stop
         \prop_put:cxV { l__chemgreek_lowercase_mapping_#1_prop }
           { \tl_item:Nn \c__chemgreek_alphabet_tl { \l__chemgreek_tmpa_int } }
-          \l__chemgreek_tmpa_tl
+          \l__chemgreek_lower_tl
         \prop_put:cxV { l__chemgreek_uppercase_mapping_#1_prop }
           { \tl_item:Nn \c__chemgreek_alphabet_tl { \l__chemgreek_tmpa_int } }
-          \l__chemgreek_tmpb_tl
+          \l__chemgreek_upper_tl
       }
   }
 
@@ -586,30 +590,30 @@
   {
     \int_to_symbols:nnn {#1} {24}
       {
-        {  1 } { \chemalpha }
-        {  2 } { \chembeta }
-        {  3 } { \chemgamma }
-        {  4 } { \chemdelta }
-        {  5 } { \chemepsilon }
-        {  6 } { \chemzeta }
-        {  7 } { \chemeta }
-        {  8 } { \chemiota }
-        {  9 } { \chemtheta }
-        { 10 } { \chemkappa }
-        { 11 } { \chemlambda }
-        { 12 } { \chemmu }
-        { 13 } { \chemnu }
-        { 14 } { \chemxi }
-        { 15 } { \chemomikron }
-        { 16 } { \chempi }
-        { 17 } { \chemrho }
-        { 18 } { \chemsigma }
-        { 19 } { \chemtau }
-        { 20 } { \chemupsilon }
-        { 21 } { \chemphi }
-        { 22 } { \chemchi }
-        { 23 } { \chempsi }
-        { 24 } { \chemomega }
+        {  1 } { \chemgreek_alpha: }
+        {  2 } { \chemgreek_beta: }
+        {  3 } { \chemgreek_gamma: }
+        {  4 } { \chemgreek_delta: }
+        {  5 } { \chemgreek_epsilon: }
+        {  6 } { \chemgreek_zeta: }
+        {  7 } { \chemgreek_eta: }
+        {  8 } { \chemgreek_iota: }
+        {  9 } { \chemgreek_theta: }
+        { 10 } { \chemgreek_kappa: }
+        { 11 } { \chemgreek_lambda: }
+        { 12 } { \chemgreek_mu: }
+        { 13 } { \chemgreek_nu: }
+        { 14 } { \chemgreek_xi: }
+        { 15 } { \chemgreek_omikron: }
+        { 16 } { \chemgreek_pi: }
+        { 17 } { \chemgreek_rho: }
+        { 18 } { \chemgreek_sigma: }
+        { 19 } { \chemgreek_tau: }
+        { 20 } { \chemgreek_upsilon: }
+        { 21 } { \chemgreek_phi: }
+        { 22 } { \chemgreek_chi: }
+        { 23 } { \chemgreek_psi: }
+        { 24 } { \chemgreek_omega: }
       }
   }
 
@@ -617,30 +621,30 @@
   {
     \int_to_symbols:nnn {#1} {24}
       {
-        {  1 } { \chemAlpha }
-        {  2 } { \chemBeta }
-        {  3 } { \chemGamma }
-        {  4 } { \chemDelta }
-        {  5 } { \chemEpsilon }
-        {  6 } { \chemZeta }
-        {  7 } { \chemEta }
-        {  8 } { \chemIota }
-        {  9 } { \chemTheta }
-        { 10 } { \chemKappa }
-        { 11 } { \chemLambda }
-        { 12 } { \chemMu }
-        { 13 } { \chemNu }
-        { 14 } { \chemXi }
-        { 15 } { \chemOmikron }
-        { 16 } { \chemPi }
-        { 17 } { \chemRho }
-        { 18 } { \chemSigma }
-        { 19 } { \chemTau }
-        { 20 } { \chemUpsilon }
-        { 21 } { \chemPhi }
-        { 22 } { \chemChi }
-        { 23 } { \chemPsi }
-        { 24 } { \chemOmega }
+        {  1 } { \chemgreek_Alpha: }
+        {  2 } { \chemgreek_Beta: }
+        {  3 } { \chemgreek_Gamma: }
+        {  4 } { \chemgreek_Delta: }
+        {  5 } { \chemgreek_Epsilon: }
+        {  6 } { \chemgreek_Zeta: }
+        {  7 } { \chemgreek_Eta: }
+        {  8 } { \chemgreek_Iota: }
+        {  9 } { \chemgreek_Theta: }
+        { 10 } { \chemgreek_Kappa: }
+        { 11 } { \chemgreek_Lambda: }
+        { 12 } { \chemgreek_Mu: }
+        { 13 } { \chemgreek_Nu: }
+        { 14 } { \chemgreek_Xi: }
+        { 15 } { \chemgreek_Omikron: }
+        { 16 } { \chemgreek_Pi: }
+        { 17 } { \chemgreek_Rho: }
+        { 18 } { \chemgreek_Sigma: }
+        { 19 } { \chemgreek_Tau: }
+        { 20 } { \chemgreek_Upsilon: }
+        { 21 } { \chemgreek_Phi: }
+        { 22 } { \chemgreek_Chi: }
+        { 23 } { \chemgreek_Psi: }
+        { 24 } { \chemgreek_Omega: }
       }
   }
 
@@ -649,88 +653,88 @@
 % default:
 \chemgreek_new_mapping:nnn {default} { }
   {
-    \ensuremath{\alpha}   / \ensuremath{\mathrm{A}} , %  1
-    \ensuremath{\beta}    / \ensuremath{\mathrm{B}} , %  2
-    \ensuremath{\gamma}   / \ensuremath{\Gamma} ,     %  3
-    \ensuremath{\delta}   / \ensuremath{\Delta} ,     %  4
-    \ensuremath{\epsilon} / \ensuremath{\mathrm{E}} , %  5
-    \ensuremath{\zeta}    / \ensuremath{\mathrm{Z}} , %  6
-    \ensuremath{\eta}     / \ensuremath{\mathrm{H}} , %  7
-    \ensuremath{\theta}   / \ensuremath{\Theta} ,     %  8
-    \ensuremath{\iota}    / \ensuremath{\mathrm{I}} , %  9
-    \ensuremath{\kappa}   / \ensuremath{\mathrm{K}} , % 10
-    \ensuremath{\lambda}  / \ensuremath{\Lambda} ,    % 11
-    \ensuremath{\mu}      / \ensuremath{\mathrm{M}} , % 12
-    \ensuremath{\nu}      / \ensuremath{\mathrm{N}} , % 13
-    \ensuremath{\xi}      / \ensuremath{\Xi} ,        % 14
-    \ensuremath{o}        / \ensuremath{\mathrm{O}} , % 15
-    \ensuremath{\pi}      / \ensuremath{\Pi} ,        % 16
-    \ensuremath{\rho}     / \ensuremath{\mathrm{P}} , % 17
-    \ensuremath{\sigma}   / \ensuremath{\Sigma} ,     % 18
-    \ensuremath{\tau}     / \ensuremath{\mathrm{T}} , % 19
-    \ensuremath{\upsilon} / \ensuremath{\Upsilon} ,   % 20
-    \ensuremath{\phi}     / \ensuremath{\Phi} ,       % 21
-    \ensuremath{\chi}     / \ensuremath{\mathrm{X}} , % 22
-    \ensuremath{\psi}     / \ensuremath{\Psi},        % 23
-    \ensuremath{\omega}   / \ensuremath{\Omega}       % 24
+    \ensuremath {\alpha}   / \ensuremath {\mathrm{A}} , %  1
+    \ensuremath {\beta}    / \ensuremath {\mathrm{B}} , %  2
+    \ensuremath {\gamma}   / \ensuremath {\Gamma} ,     %  3
+    \ensuremath {\delta}   / \ensuremath {\Delta} ,     %  4
+    \ensuremath {\epsilon} / \ensuremath {\mathrm{E}} , %  5
+    \ensuremath {\zeta}    / \ensuremath {\mathrm{Z}} , %  6
+    \ensuremath {\eta}     / \ensuremath {\mathrm{H}} , %  7
+    \ensuremath {\theta}   / \ensuremath {\Theta} ,     %  8
+    \ensuremath {\iota}    / \ensuremath {\mathrm{I}} , %  9
+    \ensuremath {\kappa}   / \ensuremath {\mathrm{K}} , % 10
+    \ensuremath {\lambda}  / \ensuremath {\Lambda} ,    % 11
+    \ensuremath {\mu}      / \ensuremath {\mathrm{M}} , % 12
+    \ensuremath {\nu}      / \ensuremath {\mathrm{N}} , % 13
+    \ensuremath {\xi}      / \ensuremath {\Xi} ,        % 14
+    \ensuremath {o}        / \ensuremath {\mathrm{O}} , % 15
+    \ensuremath {\pi}      / \ensuremath {\Pi} ,        % 16
+    \ensuremath {\rho}     / \ensuremath {\mathrm{P}} , % 17
+    \ensuremath {\sigma}   / \ensuremath {\Sigma} ,     % 18
+    \ensuremath {\tau}     / \ensuremath {\mathrm{T}} , % 19
+    \ensuremath {\upsilon} / \ensuremath {\Upsilon} ,   % 20
+    \ensuremath {\phi}     / \ensuremath {\Phi} ,       % 21
+    \ensuremath {\chi}     / \ensuremath {\mathrm{X}} , % 22
+    \ensuremath {\psi}     / \ensuremath {\Psi},        % 23
+    \ensuremath {\omega}   / \ensuremath {\Omega}       % 24
   }
 
 % default-variant:
 \chemgreek_new_mapping:nnn {var-default} { }
   {
-    \ensuremath{\alpha}      / \ensuremath{\mathrm{A}} , %  1
-    \ensuremath{\beta}       / \ensuremath{\mathrm{B}} , %  2
-    \ensuremath{\gamma}      / \ensuremath{\Gamma} ,     %  3
-    \ensuremath{\delta}      / \ensuremath{\Delta} ,     %  4
-    \ensuremath{\varepsilon} / \ensuremath{\mathrm{E}} , %  5
-    \ensuremath{\zeta}       / \ensuremath{\mathrm{Z}} , %  6
-    \ensuremath{\eta}        / \ensuremath{\mathrm{H}} , %  7
-    \ensuremath{\vartheta}   / \ensuremath{\Theta} ,     %  8
-    \ensuremath{\iota}       / \ensuremath{\mathrm{I}} , %  9
-    \ensuremath{\kappa}      / \ensuremath{\mathrm{K}} , % 10
-    \ensuremath{\lambda}     / \ensuremath{\Lambda} ,    % 11
-    \ensuremath{\mu}         / \ensuremath{\mathrm{M}} , % 12
-    \ensuremath{\nu}         / \ensuremath{\mathrm{N}} , % 13
-    \ensuremath{\xi}         / \ensuremath{\Xi} ,        % 14
-    \ensuremath{o}           / \ensuremath{\mathrm{O}} , % 15
-    \ensuremath{\varpi}      / \ensuremath{\Pi} ,        % 16
-    \ensuremath{\varrho}     / \ensuremath{\mathrm{P}} , % 17
-    \ensuremath{\varsigma}   / \ensuremath{\Sigma} ,     % 18
-    \ensuremath{\tau}        / \ensuremath{\mathrm{T}} , % 19
-    \ensuremath{\upsilon}    / \ensuremath{\Upsilon} ,   % 20
-    \ensuremath{\varphi}     / \ensuremath{\Phi} ,       % 21
-    \ensuremath{\chi}        / \ensuremath{\mathrm{X}} , % 22
-    \ensuremath{\psi}        / \ensuremath{\Psi} ,       % 23
-    \ensuremath{\omega}      / \ensuremath{\Omega}       % 24
+    \ensuremath {\alpha}      / \ensuremath {\mathrm{A}} , %  1
+    \ensuremath {\beta}       / \ensuremath {\mathrm{B}} , %  2
+    \ensuremath {\gamma}      / \ensuremath {\Gamma} ,     %  3
+    \ensuremath {\delta}      / \ensuremath {\Delta} ,     %  4
+    \ensuremath {\varepsilon} / \ensuremath {\mathrm{E}} , %  5
+    \ensuremath {\zeta}       / \ensuremath {\mathrm{Z}} , %  6
+    \ensuremath {\eta}        / \ensuremath {\mathrm{H}} , %  7
+    \ensuremath {\vartheta}   / \ensuremath {\Theta} ,     %  8
+    \ensuremath {\iota}       / \ensuremath {\mathrm{I}} , %  9
+    \ensuremath {\kappa}      / \ensuremath {\mathrm{K}} , % 10
+    \ensuremath {\lambda}     / \ensuremath {\Lambda} ,    % 11
+    \ensuremath {\mu}         / \ensuremath {\mathrm{M}} , % 12
+    \ensuremath {\nu}         / \ensuremath {\mathrm{N}} , % 13
+    \ensuremath {\xi}         / \ensuremath {\Xi} ,        % 14
+    \ensuremath {o}           / \ensuremath {\mathrm{O}} , % 15
+    \ensuremath {\varpi}      / \ensuremath {\Pi} ,        % 16
+    \ensuremath {\varrho}     / \ensuremath {\mathrm{P}} , % 17
+    \ensuremath {\varsigma}   / \ensuremath {\Sigma} ,     % 18
+    \ensuremath {\tau}        / \ensuremath {\mathrm{T}} , % 19
+    \ensuremath {\upsilon}    / \ensuremath {\Upsilon} ,   % 20
+    \ensuremath {\varphi}     / \ensuremath {\Phi} ,       % 21
+    \ensuremath {\chi}        / \ensuremath {\mathrm{X}} , % 22
+    \ensuremath {\psi}        / \ensuremath {\Psi} ,       % 23
+    \ensuremath {\omega}      / \ensuremath {\Omega}       % 24
   }
 
 % mathdesign:
 \chemgreek_new_mapping:nnn {mathdesign} {mathdesign}
   {
-    \ensuremath{\alphaup}      / \ensuremath{\mathrm{A}} , %  1
-    \ensuremath{\betaup}       / \ensuremath{\mathrm{B}} , %  2
-    \ensuremath{\gammaup}      / \ensuremath{\Gammaup} ,   %  3
-    \ensuremath{\deltaup}      / \ensuremath{\Deltaup} ,   %  4
-    \ensuremath{\epsilonup}    / \ensuremath{\mathrm{E}} , %  5
-    \ensuremath{\zetaup}       / \ensuremath{\mathrm{Z}} , %  6
-    \ensuremath{\etaup}        / \ensuremath{\mathrm{H}} , %  7
-    \ensuremath{\thetaup}      / \ensuremath{\Thetaup} ,   %  8
-    \ensuremath{\iotaup}       / \ensuremath{\mathrm{I}} , %  9
-    \ensuremath{\kappaup}      / \ensuremath{\mathrm{K}} , % 10
-    \ensuremath{\lambdaup}     / \ensuremath{\Lambdaup} ,  % 11
-    \ensuremath{\muup}         / \ensuremath{\mathrm{M}} , % 12
-    \ensuremath{\nuup}         / \ensuremath{\mathrm{N}} , % 13
-    \ensuremath{\xiup}         / \ensuremath{\Xiup} ,      % 14
-    \ensuremath{\mathrm{o}}    / \ensuremath{\mathrm{O}} , % 15
-    \ensuremath{\piup}         / \ensuremath{\Piup} ,      % 16
-    \ensuremath{\rhoup}        / \ensuremath{\mathrm{R}} , % 17
-    \ensuremath{\sigmaup}      / \ensuremath{\Sigmaup} ,   % 18
-    \ensuremath{\tauup}        / \ensuremath{\mathrm{T}} , % 19
-    \ensuremath{\upsilonup}    / \ensuremath{\Upsilonup} , % 20
-    \ensuremath{\phiup}        / \ensuremath{\Phiup} ,     % 21
-    \ensuremath{\chiup}        / \ensuremath{\mathrm{X}} , % 22
-    \ensuremath{\psiup}        / \ensuremath{\Psiup} ,     % 23
-    \ensuremath{\omegaup}      / \ensuremath{\Omegaup}     % 24
+    \ensuremath {\alphaup}   / \ensuremath {\mathrm{A}} , %  1
+    \ensuremath {\betaup}    / \ensuremath {\mathrm{B}} , %  2
+    \ensuremath {\gammaup}   / \ensuremath {\Gammaup} ,   %  3
+    \ensuremath {\deltaup}   / \ensuremath {\Deltaup} ,   %  4
+    \ensuremath {\epsilonup} / \ensuremath {\mathrm{E}} , %  5
+    \ensuremath {\zetaup}    / \ensuremath {\mathrm{Z}} , %  6
+    \ensuremath {\etaup}     / \ensuremath {\mathrm{H}} , %  7
+    \ensuremath {\thetaup}   / \ensuremath {\Thetaup} ,   %  8
+    \ensuremath {\iotaup}    / \ensuremath {\mathrm{I}} , %  9
+    \ensuremath {\kappaup}   / \ensuremath {\mathrm{K}} , % 10
+    \ensuremath {\lambdaup}  / \ensuremath {\Lambdaup} ,  % 11
+    \ensuremath {\muup}      / \ensuremath {\mathrm{M}} , % 12
+    \ensuremath {\nuup}      / \ensuremath {\mathrm{N}} , % 13
+    \ensuremath {\xiup}      / \ensuremath {\Xiup} ,      % 14
+    \ensuremath {\mathrm{o}} / \ensuremath {\mathrm{O}} , % 15
+    \ensuremath {\piup}      / \ensuremath {\Piup} ,      % 16
+    \ensuremath {\rhoup}     / \ensuremath {\mathrm{R}} , % 17
+    \ensuremath {\sigmaup}   / \ensuremath {\Sigmaup} ,   % 18
+    \ensuremath {\tauup}     / \ensuremath {\mathrm{T}} , % 19
+    \ensuremath {\upsilonup} / \ensuremath {\Upsilonup} , % 20
+    \ensuremath {\phiup}     / \ensuremath {\Phiup} ,     % 21
+    \ensuremath {\chiup}     / \ensuremath {\mathrm{X}} , % 22
+    \ensuremath {\psiup}     / \ensuremath {\Psiup} ,     % 23
+    \ensuremath {\omegaup}   / \ensuremath {\Omegaup}     % 24
   }
 
 % textgreek:
@@ -765,88 +769,88 @@
 % upgreek:
 \chemgreek_new_mapping:nnn {upgreek} {upgreek}
   {
-    \ensuremath{\upalpha}      / \ensuremath{\mathrm{A}} , %  1
-    \ensuremath{\upbeta}       / \ensuremath{\mathrm{B}} , %  2
-    \ensuremath{\upgamma}      / \ensuremath{\Upgamma} ,   %  3
-    \ensuremath{\updelta}      / \ensuremath{\Updelta} ,   %  4
-    \ensuremath{\upepsilon}    / \ensuremath{\mathrm{E}} , %  5
-    \ensuremath{\upzeta}       / \ensuremath{\mathrm{Z}} , %  6
-    \ensuremath{\upeta}        / \ensuremath{\mathrm{H}} , %  7
-    \ensuremath{\uptheta}      / \ensuremath{\Uptheta} ,   %  8
-    \ensuremath{\upiota}       / \ensuremath{\mathrm{I}} ,   %  9
-    \ensuremath{\upkappa}      / \ensuremath{\mathrm{K}} , % 10
-    \ensuremath{\uplambda}     / \ensuremath{\Uplambda} ,  % 11
-    \ensuremath{\upmu}         / \ensuremath{\mathrm{M}} , % 12
-    \ensuremath{\upnu}         / \ensuremath{\mathrm{N}} , % 13
-    \ensuremath{\upxi}         / \ensuremath{\Upxi} ,      % 14
-    \ensuremath{\mathrm{o}}    / \ensuremath{\mathrm{O}} , % 15
-    \ensuremath{\uppi}         / \ensuremath{\Uppi} ,      % 16
-    \ensuremath{\uprho}        / \ensuremath{\mathrm{R}} , % 17
-    \ensuremath{\upsigma}      / \ensuremath{\Upsigma} ,   % 18
-    \ensuremath{\uptau}        / \ensuremath{\mathrm{T}} , % 19
-    \ensuremath{\upupsilon}    / \ensuremath{\Upupsilon} , % 20
-    \ensuremath{\upphi}        / \ensuremath{\Upphi} ,     % 21
-    \ensuremath{\upchi}        / \ensuremath{\mathrm{X}} , % 22
-    \ensuremath{\uppsi}        / \ensuremath{\Uppsi} ,     % 23
-    \ensuremath{\upomega}      / \ensuremath{\Upomega}     % 24
+    \ensuremath {\upalpha}   / \ensuremath {\mathrm{A}} , %  1
+    \ensuremath {\upbeta}    / \ensuremath {\mathrm{B}} , %  2
+    \ensuremath {\upgamma}   / \ensuremath {\Upgamma} ,   %  3
+    \ensuremath {\updelta}   / \ensuremath {\Updelta} ,   %  4
+    \ensuremath {\upepsilon} / \ensuremath {\mathrm{E}} , %  5
+    \ensuremath {\upzeta}    / \ensuremath {\mathrm{Z}} , %  6
+    \ensuremath {\upeta}     / \ensuremath {\mathrm{H}} , %  7
+    \ensuremath {\uptheta}   / \ensuremath {\Uptheta} ,   %  8
+    \ensuremath {\upiota}    / \ensuremath {\mathrm{I}} ,   %  9
+    \ensuremath {\upkappa}   / \ensuremath {\mathrm{K}} , % 10
+    \ensuremath {\uplambda}  / \ensuremath {\Uplambda} ,  % 11
+    \ensuremath {\upmu}      / \ensuremath {\mathrm{M}} , % 12
+    \ensuremath {\upnu}      / \ensuremath {\mathrm{N}} , % 13
+    \ensuremath {\upxi}      / \ensuremath {\Upxi} ,      % 14
+    \ensuremath {\mathrm{o}} / \ensuremath {\mathrm{O}} , % 15
+    \ensuremath {\uppi}      / \ensuremath {\Uppi} ,      % 16
+    \ensuremath {\uprho}     / \ensuremath {\mathrm{R}} , % 17
+    \ensuremath {\upsigma}   / \ensuremath {\Upsigma} ,   % 18
+    \ensuremath {\uptau}     / \ensuremath {\mathrm{T}} , % 19
+    \ensuremath {\upupsilon} / \ensuremath {\Upupsilon} , % 20
+    \ensuremath {\upphi}     / \ensuremath {\Upphi} ,     % 21
+    \ensuremath {\upchi}     / \ensuremath {\mathrm{X}} , % 22
+    \ensuremath {\uppsi}     / \ensuremath {\Uppsi} ,     % 23
+    \ensuremath {\upomega}   / \ensuremath {\Upomega}     % 24
   }
 
 % kpfonts:
 \chemgreek_new_mapping:nnn {kpfonts} {kpfonts}
   {
-    \ensuremath{\alphaup}      / \ensuremath{\mathrm{A}} , %  1
-    \ensuremath{\betaup}       / \ensuremath{\mathrm{B}} , %  2
-    \ensuremath{\gammaup}      / \ensuremath{\Gammaup} ,   %  3
-    \ensuremath{\deltaup}      / \ensuremath{\Deltaup} ,   %  4
-    \ensuremath{\epsilonup}    / \ensuremath{\mathrm{E}} , %  5
-    \ensuremath{\zetaup}       / \ensuremath{\mathrm{Z}} , %  6
-    \ensuremath{\etaup}        / \ensuremath{\mathrm{H}} , %  7
-    \ensuremath{\thetaup}      / \ensuremath{\Thetaup} ,   %  8
-    \ensuremath{\iotaup}       / \ensuremath{\mathrm{I}} , %  9
-    \ensuremath{\kappaup}      / \ensuremath{\mathrm{K}} , % 10
-    \ensuremath{\lambdaup}     / \ensuremath{\Lambdaup} ,  % 11
-    \ensuremath{\muup}         / \ensuremath{\mathrm{M}} , % 12
-    \ensuremath{\nuup}         / \ensuremath{\mathrm{N}} , % 13
-    \ensuremath{\xiup}         / \ensuremath{\Xiup} ,      % 14
-    \ensuremath{\mathrm{o}}    / \ensuremath{\mathrm{O}} , % 15
-    \ensuremath{\piup}         / \ensuremath{\Piup} ,      % 16
-    \ensuremath{\rhoup}        / \ensuremath{\mathrm{R}} , % 17
-    \ensuremath{\sigmaup}      / \ensuremath{\Sigmaup} ,   % 18
-    \ensuremath{\tauup}        / \ensuremath{\mathrm{T}} , % 19
-    \ensuremath{\upsilonup}    / \ensuremath{\Upsilonup} , % 20
-    \ensuremath{\phiup}        / \ensuremath{\Phiup} ,     % 21
-    \ensuremath{\chiup}        / \ensuremath{\mathrm{X}} , % 22
-    \ensuremath{\psiup}        / \ensuremath{\Psiup} ,     % 23
-    \ensuremath{\omegaup}      / \ensuremath{\Omegaup}     % 24
+    \ensuremath {\alphaup}   / \ensuremath {\mathrm{A}} , %  1
+    \ensuremath {\betaup}    / \ensuremath {\mathrm{B}} , %  2
+    \ensuremath {\gammaup}   / \ensuremath {\Gammaup} ,   %  3
+    \ensuremath {\deltaup}   / \ensuremath {\Deltaup} ,   %  4
+    \ensuremath {\epsilonup} / \ensuremath {\mathrm{E}} , %  5
+    \ensuremath {\zetaup}    / \ensuremath {\mathrm{Z}} , %  6
+    \ensuremath {\etaup}     / \ensuremath {\mathrm{H}} , %  7
+    \ensuremath {\thetaup}   / \ensuremath {\Thetaup} ,   %  8
+    \ensuremath {\iotaup}    / \ensuremath {\mathrm{I}} , %  9
+    \ensuremath {\kappaup}   / \ensuremath {\mathrm{K}} , % 10
+    \ensuremath {\lambdaup}  / \ensuremath {\Lambdaup} ,  % 11
+    \ensuremath {\muup}      / \ensuremath {\mathrm{M}} , % 12
+    \ensuremath {\nuup}      / \ensuremath {\mathrm{N}} , % 13
+    \ensuremath {\xiup}      / \ensuremath {\Xiup} ,      % 14
+    \ensuremath {\mathrm{o}} / \ensuremath {\mathrm{O}} , % 15
+    \ensuremath {\piup}      / \ensuremath {\Piup} ,      % 16
+    \ensuremath {\rhoup}     / \ensuremath {\mathrm{R}} , % 17
+    \ensuremath {\sigmaup}   / \ensuremath {\Sigmaup} ,   % 18
+    \ensuremath {\tauup}     / \ensuremath {\mathrm{T}} , % 19
+    \ensuremath {\upsilonup} / \ensuremath {\Upsilonup} , % 20
+    \ensuremath {\phiup}     / \ensuremath {\Phiup} ,     % 21
+    \ensuremath {\chiup}     / \ensuremath {\mathrm{X}} , % 22
+    \ensuremath {\psiup}     / \ensuremath {\Psiup} ,     % 23
+    \ensuremath {\omegaup}   / \ensuremath {\Omegaup}     % 24
   }
 
 % newtx:
 \chemgreek_new_mapping:nnn {newtx} {newtxmath}
   {
-    \ensuremath{\upalpha}      / \ensuremath{\mathrm{A}} , %  1
-    \ensuremath{\upbeta}       / \ensuremath{\mathrm{B}} , %  2
-    \ensuremath{\upgamma}      / \ensuremath{\upGamma} ,   %  3
-    \ensuremath{\updelta}      / \ensuremath{\upDelta} ,   %  4
-    \ensuremath{\upepsilon}    / \ensuremath{\mathrm{E}} , %  5
-    \ensuremath{\upzeta}       / \ensuremath{\mathrm{Z}} , %  6
-    \ensuremath{\upeta}        / \ensuremath{\mathrm{H}} , %  7
-    \ensuremath{\uptheta}      / \ensuremath{\upTheta} ,   %  8
-    \ensuremath{\upiota}       / \ensuremath{\mathrm{I}} , %  9
-    \ensuremath{\upkappa}      / \ensuremath{\mathrm{K}} , % 10
-    \ensuremath{\uplambda}     / \ensuremath{\upLambda} ,  % 11
-    \ensuremath{\upmu}         / \ensuremath{\mathrm{M}} , % 12
-    \ensuremath{\upnu}         / \ensuremath{\mathrm{N}} , % 13
-    \ensuremath{\upxi}         / \ensuremath{\upXi} ,      % 14
-    \ensuremath{\mathrm{o}}    / \ensuremath{\mathrm{O}} , % 15
-    \ensuremath{\uppi}         / \ensuremath{\upPi} ,      % 16
-    \ensuremath{\uprho}        / \ensuremath{\mathrm{R}} , % 17
-    \ensuremath{\upsigma}      / \ensuremath{\upSigma} ,   % 18
-    \ensuremath{\uptau}        / \ensuremath{\mathrm{T}} , % 19
-    \ensuremath{\upupsilon}    / \ensuremath{\upUpsilon} , % 20
-    \ensuremath{\upphi}        / \ensuremath{\upPhi} ,     % 21
-    \ensuremath{\upchi}        / \ensuremath{\mathrm{X}} , % 22
-    \ensuremath{\uppsi}        / \ensuremath{\upPsi} ,     % 23
-    \ensuremath{\upomega}      / \ensuremath{\upOmega}     % 24
+    \ensuremath {\upalpha}   / \ensuremath {\mathrm{A}} , %  1
+    \ensuremath {\upbeta}    / \ensuremath {\mathrm{B}} , %  2
+    \ensuremath {\upgamma}   / \ensuremath {\upGamma} ,   %  3
+    \ensuremath {\updelta}   / \ensuremath {\upDelta} ,   %  4
+    \ensuremath {\upepsilon} / \ensuremath {\mathrm{E}} , %  5
+    \ensuremath {\upzeta}    / \ensuremath {\mathrm{Z}} , %  6
+    \ensuremath {\upeta}     / \ensuremath {\mathrm{H}} , %  7
+    \ensuremath {\uptheta}   / \ensuremath {\upTheta} ,   %  8
+    \ensuremath {\upiota}    / \ensuremath {\mathrm{I}} , %  9
+    \ensuremath {\upkappa}   / \ensuremath {\mathrm{K}} , % 10
+    \ensuremath {\uplambda}  / \ensuremath {\upLambda} ,  % 11
+    \ensuremath {\upmu}      / \ensuremath {\mathrm{M}} , % 12
+    \ensuremath {\upnu}      / \ensuremath {\mathrm{N}} , % 13
+    \ensuremath {\upxi}      / \ensuremath {\upXi} ,      % 14
+    \ensuremath {\mathrm{o}} / \ensuremath {\mathrm{O}} , % 15
+    \ensuremath {\uppi}      / \ensuremath {\upPi} ,      % 16
+    \ensuremath {\uprho}     / \ensuremath {\mathrm{R}} , % 17
+    \ensuremath {\upsigma}   / \ensuremath {\upSigma} ,   % 18
+    \ensuremath {\uptau}     / \ensuremath {\mathrm{T}} , % 19
+    \ensuremath {\upupsilon} / \ensuremath {\upUpsilon} , % 20
+    \ensuremath {\upphi}     / \ensuremath {\upPhi} ,     % 21
+    \ensuremath {\upchi}     / \ensuremath {\mathrm{X}} , % 22
+    \ensuremath {\uppsi}     / \ensuremath {\upPsi} ,     % 23
+    \ensuremath {\upomega}   / \ensuremath {\upOmega}     % 24
   }
 
 % fourier:
@@ -866,28 +870,28 @@
 
 \chemgreek_new_mapping:nnn {fourier} {fourier}
   {
-    \__chemgreek_lfourier:n {alpha}   / \ensuremath{\mathrm{A}} ,           %  1
-    \__chemgreek_lfourier:n {beta}    / \ensuremath{\mathrm{B}} ,           %  2
+    \__chemgreek_lfourier:n {alpha}   / \ensuremath {\mathrm{A}} ,          %  1
+    \__chemgreek_lfourier:n {beta}    / \ensuremath {\mathrm{B}} ,          %  2
     \__chemgreek_lfourier:n {gamma}   / \__chemgreek_ufourier:n {Gamma} ,   %  3
     \__chemgreek_lfourier:n {delta}   / \__chemgreek_ufourier:n {Delta} ,   %  4
-    \__chemgreek_lfourier:n {epsilon} / \ensuremath{\mathrm{E}} ,           %  5
-    \__chemgreek_lfourier:n {zeta}    / \ensuremath{\mathrm{Z}} ,           %  6
-    \__chemgreek_lfourier:n {eta}     / \ensuremath{\mathrm{H}} ,           %  7
+    \__chemgreek_lfourier:n {epsilon} / \ensuremath {\mathrm{E}} ,          %  5
+    \__chemgreek_lfourier:n {zeta}    / \ensuremath {\mathrm{Z}} ,          %  6
+    \__chemgreek_lfourier:n {eta}     / \ensuremath {\mathrm{H}} ,          %  7
     \__chemgreek_lfourier:n {theta}   / \__chemgreek_ufourier:n {Theta} ,   %  8
-    \__chemgreek_lfourier:n {iota}    / \ensuremath{\mathrm{I}} ,           %  9
-    \__chemgreek_lfourier:n {kappa}   / \ensuremath{\mathrm{K}} ,           % 10
+    \__chemgreek_lfourier:n {iota}    / \ensuremath {\mathrm{I}} ,          %  9
+    \__chemgreek_lfourier:n {kappa}   / \ensuremath {\mathrm{K}} ,          % 10
     \__chemgreek_lfourier:n {lambda}  / \__chemgreek_ufourier:n {Lambda} ,  % 11
-    \__chemgreek_lfourier:n {mu}      / \ensuremath{\mathrm{M}} ,           % 12
-    \__chemgreek_lfourier:n {nu}      / \ensuremath{\mathrm{N}} ,           % 13
+    \__chemgreek_lfourier:n {mu}      / \ensuremath {\mathrm{M}} ,          % 12
+    \__chemgreek_lfourier:n {nu}      / \ensuremath {\mathrm{N}} ,          % 13
     \__chemgreek_lfourier:n {xi}      / \__chemgreek_ufourier:n {Xi} ,      % 14
-    \ensuremath {\mathrm{o}}          / \ensuremath{\mathrm{O}} ,           % 15
+    \ensuremath {\mathrm{o}}          / \ensuremath {\mathrm{O}} ,          % 15
     \__chemgreek_lfourier:n {pi}      / \__chemgreek_ufourier:n {Pi} ,      % 16
-    \__chemgreek_lfourier:n {rho}     / \ensuremath{\mathrm{R}} ,           % 17
+    \__chemgreek_lfourier:n {rho}     / \ensuremath {\mathrm{R}} ,          % 17
     \__chemgreek_lfourier:n {sigma}   / \__chemgreek_ufourier:n {Sigma} ,   % 18
-    \__chemgreek_lfourier:n {tau}     / \ensuremath{\mathrm{T}} ,           % 19
+    \__chemgreek_lfourier:n {tau}     / \ensuremath {\mathrm{T}} ,          % 19
     \__chemgreek_lfourier:n {upsilon} / \__chemgreek_ufourier:n {Upsilon} , % 20
     \__chemgreek_lfourier:n {phi}     / \__chemgreek_ufourier:n {Phi} ,     % 21
-    \__chemgreek_lfourier:n {chi}     / \ensuremath{\mathrm{X}} ,           % 22
+    \__chemgreek_lfourier:n {chi}     / \ensuremath {\mathrm{X}} ,          % 22
     \__chemgreek_lfourier:n {psi}     / \__chemgreek_ufourier:n {Psi} ,     % 23
     \__chemgreek_lfourier:n {omega}   / \__chemgreek_ufourier:n {Omega}     % 24
   }
@@ -960,30 +964,30 @@
 
 \chemgreek_new_mapping:nnn {pxgreeks} {pxgreeks}
   {
-    \ensuremath{\alphaup}      / \ensuremath{\mathrm{A}} ,            %  1
-    \ensuremath{\betaup}       / \ensuremath{\mathrm{B}} ,            %  2
-    \ensuremath{\gammaup}      / \__chemgreek_upxgreeks:n {Gamma} ,   %  3
-    \ensuremath{\deltaup}      / \__chemgreek_upxgreeks:n {Delta} ,   %  4
-    \ensuremath{\epsilonup}    / \ensuremath{\mathrm{E}} ,            %  5
-    \ensuremath{\zetaup}       / \ensuremath{\mathrm{Z}} ,            %  6
-    \ensuremath{\etaup}        / \ensuremath{\mathrm{H}} ,            %  7
-    \ensuremath{\thetaup}      / \__chemgreek_upxgreeks:n {Theta} ,   %  8
-    \ensuremath{\iotaup}       / \ensuremath{\mathrm{I}} ,            %  9
-    \ensuremath{\kappaup}      / \ensuremath{\mathrm{K}} ,            % 10
-    \ensuremath{\lambdaup}     / \__chemgreek_upxgreeks:n {Lambda} ,  % 11
-    \ensuremath{\muup}         / \ensuremath{\mathrm{M}} ,            % 12
-    \ensuremath{\nuup}         / \ensuremath{\mathrm{N}} ,            % 13
-    \ensuremath{\xiup}         / \__chemgreek_upxgreeks:n {Xi} ,      % 14
-    \ensuremath{\omicronup}    / \ensuremath{\mathrm{O}} ,            % 15
-    \ensuremath{\piup}         / \__chemgreek_upxgreeks:n {Pi} ,      % 16
-    \ensuremath{\rhoup}        / \ensuremath{\mathrm{R}} ,            % 17
-    \ensuremath{\sigmaup}      / \__chemgreek_upxgreeks:n {Sigma} ,   % 18
-    \ensuremath{\tauup}        / \ensuremath{\mathrm{T}} ,            % 19
-    \ensuremath{\upsilonup}    / \__chemgreek_upxgreeks:n {Upsilon} , % 20
-    \ensuremath{\phiup}        / \__chemgreek_upxgreeks:n {Phi} ,     % 21
-    \ensuremath{\chiup}        / \ensuremath{\mathrm{X}} ,            % 22
-    \ensuremath{\psiup}        / \__chemgreek_upxgreeks:n {Psi} ,     % 23
-    \ensuremath{\omegaup}      / \__chemgreek_upxgreeks:n {Omega}     % 24
+    \ensuremath {\alphaup}   / \ensuremath {\mathrm{A}} ,           %  1
+    \ensuremath {\betaup}    / \ensuremath {\mathrm{B}} ,           %  2
+    \ensuremath {\gammaup}   / \__chemgreek_upxgreeks:n {Gamma} ,   %  3
+    \ensuremath {\deltaup}   / \__chemgreek_upxgreeks:n {Delta} ,   %  4
+    \ensuremath {\epsilonup} / \ensuremath {\mathrm{E}} ,           %  5
+    \ensuremath {\zetaup}    / \ensuremath {\mathrm{Z}} ,           %  6
+    \ensuremath {\etaup}     / \ensuremath {\mathrm{H}} ,           %  7
+    \ensuremath {\thetaup}   / \__chemgreek_upxgreeks:n {Theta} ,   %  8
+    \ensuremath {\iotaup}    / \ensuremath {\mathrm{I}} ,           %  9
+    \ensuremath {\kappaup}   / \ensuremath {\mathrm{K}} ,           % 10
+    \ensuremath {\lambdaup}  / \__chemgreek_upxgreeks:n {Lambda} ,  % 11
+    \ensuremath {\muup}      / \ensuremath {\mathrm{M}} ,           % 12
+    \ensuremath {\nuup}      / \ensuremath {\mathrm{N}} ,           % 13
+    \ensuremath {\xiup}      / \__chemgreek_upxgreeks:n {Xi} ,      % 14
+    \ensuremath {\omicronup} / \ensuremath {\mathrm{O}} ,           % 15
+    \ensuremath {\piup}      / \__chemgreek_upxgreeks:n {Pi} ,      % 16
+    \ensuremath {\rhoup}     / \ensuremath {\mathrm{R}} ,           % 17
+    \ensuremath {\sigmaup}   / \__chemgreek_upxgreeks:n {Sigma} ,   % 18
+    \ensuremath {\tauup}     / \ensuremath {\mathrm{T}} ,           % 19
+    \ensuremath {\upsilonup} / \__chemgreek_upxgreeks:n {Upsilon} , % 20
+    \ensuremath {\phiup}     / \__chemgreek_upxgreeks:n {Phi} ,     % 21
+    \ensuremath {\chiup}     / \ensuremath {\mathrm{X}} ,           % 22
+    \ensuremath {\psiup}     / \__chemgreek_upxgreeks:n {Psi} ,     % 23
+    \ensuremath {\omegaup}   / \__chemgreek_upxgreeks:n {Omega}     % 24
   }
   
 % ----------------------------------------------------------------------------
