@@ -12,7 +12,7 @@
 % If you have any ideas, questions, suggestions or bugs to report, please
 % feel free to contact me.
 % --------------------------------------------------------------------------
-% Copyright 2015--2018 Clemens Niederberger
+% Copyright 2015--2020 Clemens Niederberger
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either version 1.3
@@ -28,14 +28,10 @@
 % --------------------------------------------------------------------------
 \RequirePackage{expl3,xparse,amstext}
 \ExplSyntaxOn
-\tl_const:Nn \c_chemgreek_date_tl {2016/12/20}
-\tl_const:Nn \c_chemgreek_version_tl {1.1}
+\tl_const:Nn \c_chemgreek_date_tl {2020/01/16}
+\tl_const:Nn \c_chemgreek_version_tl {1.1a}
 \tl_const:Nn \c_chemgreek_info_tl
-<<<<<<< HEAD
   {interface~ for~ upright~ Greek~ letters~ for~ use~ in~ chemistry}
-=======
-  {interface~ for~ upright~ greek~ letters~ for~ use~ in~ chemistry}
->>>>>>> c51ed30f760494480c141e400a2434007f79739b
 
 \ProvidesExplPackage{chemgreek}
   {\c_chemgreek_date_tl}
@@ -437,27 +433,27 @@
         \cs_set_protected:cpx
           {
             chem
-            \str_upper_case:f { \tl_head:n {##1} }
-            \str_lower_case:f { \tl_tail:n {##1} }
+            \str_uppercase:f { \tl_head:n {##1} }
+            \str_lowercase:f { \tl_tail:n {##1} }
           }
           { \prop_item:cn { l__chemgreek_uppercase_mapping_#1_prop } {##1} }
         \cs_set_eq:cc
           {
             chemgreek_
-            \str_upper_case:f { \tl_head:n {##1} }
-            \str_lower_case:f { \tl_tail:n {##1} }
+            \str_uppercase:f { \tl_head:n {##1} }
+            \str_lowercase:f { \tl_tail:n {##1} }
             :
           }
           {
             chem
-            \str_upper_case:f { \tl_head:n {##1} }
-            \str_lower_case:f { \tl_tail:n {##1} }
+            \str_uppercase:f { \tl_head:n {##1} }
+            \str_lowercase:f { \tl_tail:n {##1} }
           }
-        \cs_set_protected:cpx { chem \str_lower_case:f {##1} }
+        \cs_set_protected:cpx { chem \str_lowercase:f {##1} }
           { \prop_item:cn { l__chemgreek_lowercase_mapping_#1_prop } {##1} }
         \cs_set_eq:cc
-          { chemgreek_ \str_lower_case:f {##1} : }
-          { chem \str_lower_case:f {##1} }
+          { chemgreek_ \str_lowercase:f {##1} : }
+          { chem \str_lowercase:f {##1} }
       }
     \msg_info:nnn {chemgreek} {mapping-activated} {#1}
   }
@@ -468,12 +464,12 @@
   {
     \tl_set:Nx \l__chemgreek_tmpa_tl
       {
-        \str_upper_case:f { \tl_head:n {#2} }
-        \str_lower_case:f { \tl_tail:n {#2} }
+        \str_uppercase:f { \tl_head:n {#2} }
+        \str_lowercase:f { \tl_tail:n {#2} }
       }
     \str_if_eq:nVTF {#2} \l__chemgreek_tmpa_tl
       {
-        \tl_set:Nx \l__chemgreek_tmpa_tl { \str_lower_case:f {#2} }
+        \tl_set:Nx \l__chemgreek_tmpa_tl { \str_lowercase:f {#2} }
         \prop_item:cV
           { l__chemgreek_uppercase_mapping_#1_prop }
           \l__chemgreek_tmpa_tl
@@ -531,14 +527,14 @@
         \iow_log:x
           {
             . \c_space_tl \c_space_tl \c_space_tl \c_space_tl \c_space_tl
-            \str_lower_case:f {##1} ~ => ~
+            \str_lowercase:f {##1} ~ => ~
             \prop_item:cn { l__chemgreek_lowercase_mapping_#1_prop } {##1}
           }
         \iow_log:x
           {
             . \c_space_tl \c_space_tl \c_space_tl \c_space_tl \c_space_tl
-            \str_upper_case:f { \tl_head:n {##1} }
-            \str_lower_case:f { \tl_tail:n {##1} }
+            \str_uppercase:f { \tl_head:n {##1} }
+            \str_lowercase:f { \tl_tail:n {##1} }
             \c_space_tl => ~
             \prop_item:cn { l__chemgreek_uppercase_mapping_#1_prop } {##1}
           }
@@ -552,12 +548,12 @@
   {
     \tl_map_inline:Nn \c__chemgreek_alphabet_tl
       {
-        \use:c { chem \str_lower_case:f {##1} }
+        \use:c { chem \str_lowercase:f {##1} }
         \use:c
           {
             chem
-            \str_upper_case:f { \tl_head:n {##1} }
-            \str_lower_case:f { \tl_tail:n {##1} }
+            \str_uppercase:f { \tl_head:n {##1} }
+            \str_lowercase:f { \tl_tail:n {##1} }
           }
         \c_space_tl
       }
@@ -579,8 +575,8 @@
         \chemgreek_drop_symbol:n {##1}
         \chemgreek_drop_symbol:n
           {
-            \str_upper_case:f { \tl_head:n {##1} }
-            \str_lower_case:f { \tl_tail:n {##1} }
+            \str_uppercase:f { \tl_head:n {##1} }
+            \str_lowercase:f { \tl_tail:n {##1} }
           }
       }
   }
@@ -1033,25 +1029,25 @@
                     \cs_set_eq:cc
                       {
                         chem
-                        \str_upper_case:f { \tl_head:n {#1} }
-                        \str_lower_case:f { \tl_tail:n {#1} }
+                        \str_uppercase:f { \tl_head:n {#1} }
+                        \str_lowercase:f { \tl_tail:n {#1} }
                       }
                       {
                         text
-                        \str_upper_case:f { \tl_head:n {#1} }
-                        \str_lower_case:f { \tl_tail:n {#1} }
+                        \str_uppercase:f { \tl_head:n {#1} }
+                        \str_lowercase:f { \tl_tail:n {#1} }
                       }
                     \cs_set_eq:cc
                       {
                         chemgreek_
-                        \str_upper_case:f { \tl_head:n {#1} }
-                        \str_lower_case:f { \tl_tail:n {#1} }
+                        \str_uppercase:f { \tl_head:n {#1} }
+                        \str_lowercase:f { \tl_tail:n {#1} }
                         :
                       }
                       {
                         text
-                        \str_upper_case:f { \tl_head:n {#1} }
-                        \str_lower_case:f { \tl_tail:n {#1} }
+                        \str_uppercase:f { \tl_head:n {#1} }
+                        \str_lowercase:f { \tl_tail:n {#1} }
                       }
                     \cs_set_eq:cc {chem#1} {text#1}
                     \cs_set_eq:cc { chemgreek_ #1 : } {text#1}
@@ -1111,6 +1107,5 @@ HISTORY:
 2016/02/10 - v1.0e - one missed \prop_get:Nn
 2016/20/12 - v1.1  - fix wrong alphabet order (issue #5)
                    - fix errors in fontspec mapping (issue #4)
-
-TODO:
+2020/01/16 - v1.1a - adapt to renaming of string case changing functions
 
